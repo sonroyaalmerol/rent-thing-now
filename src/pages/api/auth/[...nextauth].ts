@@ -1,11 +1,9 @@
-import NextAuth from 'next-auth';
+import NextAuth, { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import { PrismaClient } from '@prisma/client';
+import prisma from '@/utils/prisma';
 
-const prisma = new PrismaClient();
-
-export default NextAuth({
+export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
@@ -13,4 +11,34 @@ export default NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
     }),
   ],
-});
+  session: {
+    strategy: 'jwt',
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+
+        const profile = await prisma.profile.findUnique({
+          where: {
+            userId: user.id,
+          },
+        });
+
+        if (profile) {
+          token.profileId = profile.id;
+        }
+      }
+      return token;
+    },
+    session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.id;
+        session.user.profileId = token.profileId;
+      }
+      return session;
+    },
+  },
+}
+
+export default NextAuth(authOptions);
