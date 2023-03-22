@@ -9,6 +9,8 @@ import clsx from 'clsx';
 import prisma from '@/utils/prisma';
 import { Category } from '@prisma/client';
 import trpc from '@/utils/trpc';
+import NoThingsFound from '@/components/NoThingsFound';
+import ListLoading from '@/components/ListLoading';
 
 export const getServerSideProps: GetServerSideProps<{ category: Category }> = async (context) => {
   const { slug } = context.query;
@@ -35,7 +37,7 @@ export const getServerSideProps: GetServerSideProps<{ category: Category }> = as
 const CategoryPage: NextPage<
   InferGetServerSidePropsType<typeof getServerSideProps>
 > = ({ category }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { data } = trpc.thingsByCategory.useQuery({
+  const { data, isLoading } = trpc.thingsByCategory.useQuery({
     id: category.id,
   });
 
@@ -56,6 +58,12 @@ const CategoryPage: NextPage<
           href="/favicon.ico"
         />
       </Head>
+      { isLoading && (
+        <ListLoading />
+      ) }
+      { (data?.length === 0 && !isLoading) && (
+        <NoThingsFound />
+      ) }
       <div
         key={category.slug}
         className={

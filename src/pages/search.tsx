@@ -7,6 +7,8 @@ import ThingCard from '@/components/Home/ThingCard';
 import clsx from 'clsx';
 
 import trpc from '@/utils/trpc';
+import NoThingsFound from '@/components/NoThingsFound';
+import ListLoading from '@/components/ListLoading';
 
 export const getServerSideProps: GetServerSideProps<{
   query: string | string[] | undefined
@@ -32,8 +34,8 @@ export const getServerSideProps: GetServerSideProps<{
 // eslint-disable-next-line no-unused-vars
 const SearchPage: NextPage<
   InferGetServerSidePropsType<typeof getServerSideProps>
-> = ({ query }) => {
-  const { data } = trpc.searchForThings.useQuery({
+> = ({ query }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const { data, isLoading } = trpc.searchForThings.useQuery({
     query: query as string,
   });
 
@@ -54,6 +56,12 @@ const SearchPage: NextPage<
           href="/favicon.ico"
         />
       </Head>
+      { isLoading && (
+        <ListLoading />
+      ) }
+      { (data?.length === 0 && !isLoading) && (
+        <NoThingsFound />
+      ) }
       <div className={
         clsx([
           'grid',

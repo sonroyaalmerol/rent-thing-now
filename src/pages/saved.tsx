@@ -11,6 +11,7 @@ import prisma from '@/utils/prisma';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { getServerSession } from 'next-auth/next';
 import { Thing } from '@prisma/client';
+import NoThingsFound from '@/components/NoThingsFound';
 
 export const getServerSideProps: GetServerSideProps<{ things: (Thing & {
   owner: {
@@ -87,6 +88,9 @@ const SavedThingsPage: NextPage<
         href="/favicon.ico"
       />
     </Head>
+    { (things?.length === 0) && (
+      <NoThingsFound />
+    ) }
     <div
       className={
         clsx([

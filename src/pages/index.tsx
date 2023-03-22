@@ -4,10 +4,12 @@ import Head from 'next/head';
 import ThingCard from '@/components/Home/ThingCard';
 import clsx from 'clsx';
 import trpc from '@/utils/trpc';
+import NoThingsFound from '@/components/NoThingsFound';
+import ListLoading from '@/components/ListLoading';
 
 // eslint-disable-next-line no-unused-vars
 const Home: NextPage = (props) => {
-  const { data } = trpc.allThings.useQuery();
+  const { data, isLoading } = trpc.allThings.useQuery();
 
   return (
     <>
@@ -26,6 +28,12 @@ const Home: NextPage = (props) => {
           href="/favicon.ico"
         />
       </Head>
+      { isLoading && (
+        <ListLoading />
+      ) }
+      { (data?.length === 0 && !isLoading) && (
+        <NoThingsFound />
+      ) }
       <div className={
         clsx([
           'grid',
