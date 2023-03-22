@@ -11,17 +11,21 @@ export default procedure
   )
   .query(async ({ input }) => {
     const [
-      reviews,
+      allStars,
       oneStar,
       twoStar,
       threeStar,
       fourStar,
       fiveStar,
     ] = await prisma.$transaction([
-      prisma.thingReview.findMany({
+      prisma.thingReview.aggregate({
         where: {
           thingId: input.id,
         },
+        _avg: {
+          rating: true,
+        },
+        _count: true,
       }),
       prisma.thingReview.aggregate({
         where: {
@@ -31,9 +35,7 @@ export default procedure
         _avg: {
           rating: true,
         },
-        _count: {
-          rating: true,
-        },
+        _count: true,
       }),
       prisma.thingReview.aggregate({
         where: {
@@ -43,9 +45,7 @@ export default procedure
         _avg: {
           rating: true,
         },
-        _count: {
-          rating: true,
-        },
+        _count: true,
       }),
       prisma.thingReview.aggregate({
         where: {
@@ -55,9 +55,7 @@ export default procedure
         _avg: {
           rating: true,
         },
-        _count: {
-          rating: true,
-        },
+        _count: true,
       }),
       prisma.thingReview.aggregate({
         where: {
@@ -67,9 +65,7 @@ export default procedure
         _avg: {
           rating: true,
         },
-        _count: {
-          rating: true,
-        },
+        _count: true,
       }),
       prisma.thingReview.aggregate({
         where: {
@@ -79,14 +75,12 @@ export default procedure
         _avg: {
           rating: true,
         },
-        _count: {
-          rating: true,
-        },
+        _count: true,
       }),
     ]);
 
     return {
-      reviews,
+      allStars,
       oneStar,
       twoStar,
       threeStar,

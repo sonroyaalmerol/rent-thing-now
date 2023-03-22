@@ -45,6 +45,7 @@
       }
     ],
     "@next/next/no-img-element": "off",
-    "tailwindcss/classnames-order": "off"
+    "tailwindcss/classnames-order": "off",
+    "no-underscore-dangle": "off"
   }
 }
