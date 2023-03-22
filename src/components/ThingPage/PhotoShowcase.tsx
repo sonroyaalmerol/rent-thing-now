@@ -27,6 +27,7 @@ const PhotoShowcase: React.FC<PhotoShowcaseProps> = ({ thing }) => {
           caption: 'Placeholder Image',
           url: '/default_large.png',
           thingId: thing.id,
+          createdAt: new Date(),
         });
       }
     }
@@ -39,6 +40,7 @@ const PhotoShowcase: React.FC<PhotoShowcaseProps> = ({ thing }) => {
       'flex-row',
       'w-full',
       'mt-8',
+      'h-96',
     ])}
     >
       <div className={clsx([
@@ -77,6 +79,7 @@ const PhotoShowcase: React.FC<PhotoShowcaseProps> = ({ thing }) => {
         'grid-cols-2',
         'gap-2',
         'w-1/2',
+        'h-96',
         'lg:grid',
         'hidden',
       ])}

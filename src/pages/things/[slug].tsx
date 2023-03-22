@@ -18,6 +18,9 @@ import Subheader from '@/components/ThingPage/Subheader';
 import Divider from '@/components/ThingPage/Divider';
 import DetailsContainer from '@/components/ThingPage/DetailsContainer';
 import ReviewSummary from '@/components/ThingPage/ReviewSummary';
+import ReviewList from '@/components/ThingPage/ReviewList';
+import { currencyFormat } from 'simple-currency-format';
+import ReviewForm from '@/components/ThingPage/ReviewForm';
 
 export const getServerSideProps: GetServerSideProps<{ thing: (Thing & {
   images: ThingImage[];
@@ -97,7 +100,35 @@ const ThingDetails: NextPage<
           'w-full',
         ])}
         >
-          <Subheader title="Rent this Thing" />
+          <Subheader
+            className="mb-1"
+            title="Rent this Thing"
+          />
+          <div className={clsx([
+            'flex',
+            'flex-row',
+            'mb-8',
+          ])}
+          >
+            <h6
+              className={clsx([
+                'text-4xl',
+                'font-bold',
+                'mr-2',
+              ])}
+            >
+              {currencyFormat(thing.rate, 'en-US', 'USD')}
+            </h6>
+            <span
+              className={clsx([
+                'text-gray-500',
+                'text-sm',
+                'self-end',
+              ])}
+            >
+              {thing.rateType}
+            </span>
+          </div>
 
           <div className={clsx([
             'flex',
@@ -123,6 +154,8 @@ const ThingDetails: NextPage<
         >
           <Subheader title="Reviews" />
           <ReviewSummary thing={thing} />
+          <ReviewList thing={thing} />
+          <ReviewForm thing={thing} />
 
         </div>
       </DetailsContainer>

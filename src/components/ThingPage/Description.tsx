@@ -102,6 +102,7 @@ const ThingDescription: React.FC<ThingDescriptionProps> = ({ thing }) => (
         className="w-16 h-16 mb-3 rounded-full shadow-lg"
         src={thing.owner.image ?? 'https://i.pravatar.cc/150?img=32'}
         alt={thing.owner.name ?? "Owner's name"}
+        referrerPolicy="no-referrer"
       />
     </div>
   </>

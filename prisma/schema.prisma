@@ -82,8 +82,6 @@ model Thing {
 
   quantity      Int         @default(0)
 
-  startDate     DateTime
-  endDate       DateTime
   slug          String      @unique
   status        ThingStatus @default(AVAILABLE)
 
@@ -97,6 +95,9 @@ model Thing {
 
   administrators ThingAdministrator[]
 
+  updatedAt     DateTime    @updatedAt
+  createdAt     DateTime    @default(now())
+
   @@index([ownerId])
   @@fulltext([title, description, location])
 }
@@ -107,7 +108,7 @@ model ThingReview {
   renterId      String
   rating        Int
   review        String
-  reviewDate    DateTime
+  reviewDate    DateTime    @default(now())
 
   thing         Thing    @relation(fields: [thingId], references: [id])
   renter         User      @relation(fields: [renterId], references: [id])
@@ -128,7 +129,8 @@ model ThingApplication {
   thingId             String
   renterId            String
   status              ThingApplicationStatus  @default(PENDING)
-  applicationDate     DateTime
+  applicationDate     DateTime    @default(now())
+  updatedDate         DateTime    @updatedAt
   startDate           DateTime
   endDate             DateTime
 
@@ -152,6 +154,8 @@ model ThingApplicationDocument {
   url           String
   caption       String
 
+  createdAt     DateTime    @default(now())
+
   application   ThingApplication    @relation(fields: [applicationId], references: [id])
 
   @@index([applicationId])
@@ -163,6 +167,8 @@ model ThingImage {
   url           String
   caption       String
 
+  createdAt     DateTime    @default(now())
+
   thing         Thing    @relation(fields: [thingId], references: [id])
 
   @@index([thingId])
@@ -173,7 +179,7 @@ model Payment {
   thingId     String
   renterId    String
   amount       Float
-  paymentDate DateTime
+  paymentDate DateTime    @default(now())
 
   thingApplication    ThingApplication @relation(fields: [thingId], references: [id])
   renter       User   @relation(fields: [renterId], references: [id])
@@ -199,7 +205,7 @@ model SupportRequest {
   thingId   String
   renterId   String
   description String
-  requestDate DateTime
+  requestDate DateTime    @default(now())
   status      String
 
   thing       Thing @relation(fields: [thingId], references: [id])

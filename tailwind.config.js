@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -9,7 +10,7 @@ module.exports = {
     extend: {},
   },
   plugins: [
-    // eslint-disable-next-line global-require
     require('flowbite/plugin'),
+    require('@tailwindcss/line-clamp'),
   ],
 };

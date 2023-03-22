@@ -2,16 +2,19 @@ import React from 'react';
 
 import clsx from 'clsx';
 
-interface SubheaderProps {
+interface SubheaderProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string;
 }
 
-const Subheader: React.FC<SubheaderProps> = ({ title }) => (
-  <div className={clsx([
-    'flex',
-    'justify-between',
-    'items-center',
-  ])}
+const Subheader: React.FC<SubheaderProps> = ({ title, ...props }) => (
+  <div
+    className={clsx([
+      'flex',
+      'justify-between',
+      'items-center',
+      'mb-4',
+    ])}
+    {...props}
   >
     <div className={clsx([
       'flex',
@@ -26,7 +29,6 @@ const Subheader: React.FC<SubheaderProps> = ({ title }) => (
           'text-2xl',
           'font-semibold',
           'text-gray-800',
-          'mb-4',
         ])}
       >
         {title}

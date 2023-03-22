@@ -67,7 +67,7 @@ const ThingCard: React.FC<ThingCardProps> = ({ thing, ...props }) => {
             {` ${data?._avg.rating?.toFixed(1) ?? 0.0}`}
           </div>
         </div>
-        <p className="mb-2 text-sm text-gray-600">{thing.description}</p>
+        <p className="mb-2 text-sm text-gray-600 line-clamp-2">{thing.description}</p>
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center justify-start gap-1 mr-2">
             <p className="text-2xl font-bold text-black ">{currencyFormat(thing.rate, 'en-US', 'USD')}</p>
