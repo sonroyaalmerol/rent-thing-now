@@ -40,31 +40,10 @@ const CategoryPage: NextPage<InferGetServerSidePropsType<typeof getServerSidePro
           'my-8'
         ])
       }>
-        <ThingCard
-          thing={{
-            name: 'Thing Name',
-            description: 'Thing Description',
-            image: 'https://loremflickr.com/640/640',
-            price: 100,
-            owner: {
-              name: 'User Name',
-              image: 'https://loremflickr.com/640/640',
-            },
-          }}
-        />
         {data?.map((thing) => (
           <ThingCard
             key={thing.id}
-            thing={{
-              name: thing.title,
-              description: thing.description,
-              image: thing.images[0].url,
-              price: thing.rate,
-              owner: {
-                name: thing.owner.name ?? '',
-                image: thing.owner.image ?? '',
-              },
-            }}
+            thing={thing}
           />
         ))}
       </div>

@@ -5,31 +5,10 @@ import prisma from '@/utils/prisma';
 import { ThingStatus } from '@prisma/client';
 
 export default procedure
-  .input(
-    z.object({
-      query: z.string(),
-    }),
-  )
-  .query(async ({ input }) => {
-    const things = await prisma.thing.findMany({
+  .query(async () => {
+
+    const data = await prisma.thing.findMany({
       where: {
-        OR: [
-          {
-            title: {
-              search: input.query as string,
-            }
-          }, 
-          {
-            description: {
-              search: input.query as string,
-            }
-          },
-          {
-            location: {
-              search: input.query as string,
-            }
-          }
-        ],
         status: ThingStatus.AVAILABLE,
       },
       include: {
@@ -49,5 +28,5 @@ export default procedure
       }
     });
 
-    return things;
+    return data;
   });

@@ -7,6 +7,7 @@ import Navbar from '@/components/Navbar';
 import { useRouter } from 'next/router';
 
 import { useSession, signIn, signOut } from "next-auth/react"
+import AccountButton from './AccountButton';
 
 const Header = () => {
   const router = useRouter();
@@ -31,12 +32,12 @@ const Header = () => {
       <div className={
         clsx([
           'py-6',
-          'h-20',
+          'h-24',
           'text-sm',
           'bg-white',
           'border-b',
           'border-gray-100',
-          'z-50',
+          'z-40',
         ])
       }>
         {/* Airbnb-style navbar */}
@@ -78,12 +79,7 @@ const Header = () => {
             </div>
             <div className="flex items-center">
               { status === "authenticated" ? (
-                <button
-                  className="mr-4 text-gray-600 hover:underline"
-                  onClick={() => signOut()}
-                >
-                  Logout
-                </button>
+                <AccountButton />
               ) : (
                 <button
                   className="mr-4 text-gray-600 hover:underline"

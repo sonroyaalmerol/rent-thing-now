@@ -9,6 +9,8 @@ import { useRouter } from 'next/router';
 const Navbar = () => {
   const router = useRouter();
 
+  if (router.pathname === '/things/[slug]') return null;
+
   return (
     <div className={
       clsx([

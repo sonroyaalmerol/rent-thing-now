@@ -3,7 +3,7 @@ import {
 } from 'next/document';
 
 // eslint-disable-next-line no-unused-vars
-const Document = (props: DocumentProps) => (
+const Document = () => (
   <Html lang="en">
     <Head />
     <body>

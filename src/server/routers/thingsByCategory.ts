@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { procedure } from '@/server/trpc';
 
 import prisma from '@/utils/prisma';
+import { ThingStatus } from '@prisma/client';
 
 export default procedure
   .input(
@@ -18,6 +19,7 @@ export default procedure
             id: input.id,
           }
         },
+        status: ThingStatus.AVAILABLE,
       },
       include: {
         owner: {

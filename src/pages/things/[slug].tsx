@@ -6,11 +6,35 @@ import React from 'react';
 import clsx from 'clsx';
 
 import prisma from '@/utils/prisma';
-import { Thing } from '@prisma/client';
+import { Category, Thing, ThingImage, ThingReview } from '@prisma/client';
 import trpc from '@/utils/trpc';
-
+import { FaHeart, FaSave, FaShare, FaStar } from 'react-icons/fa';
+import { HiViewGrid } from 'react-icons/hi';
+ 
 // eslint-disable-next-line no-unused-vars
 const ThingDetails: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+
+  // useMemo of 4 next images for the carousel
+  const imagesForGrid = React.useMemo(() => {
+    // return array of 4 images, if less than 4, add placeholder images
+    const images = [...props.thing.images];
+    images.shift();
+    
+    const imagesForGrid: ThingImage[] = [];
+    for (let i = 0; i < 4; i++) {
+      if (images[i]) {
+        imagesForGrid.push(images[i]);
+      } else {
+        imagesForGrid.push({
+          id: `placeholder-${i}`,
+          caption: 'Placeholder Image',
+          url: '/default_large.png',
+          thingId: props.thing.id,
+        });
+      }
+    }
+    return imagesForGrid;
+  }, [props.thing.images]);
 
   return (
     <>
@@ -22,29 +46,251 @@ const ThingDetails: NextPage<InferGetServerSidePropsType<typeof getServerSidePro
       </Head>
       <div key={props.thing.slug} className={
         clsx([
-          'grid',
-          'grid-flow-row-dense',
-          'md:grid-cols-2',
-          'lg:grid-cols-3',
-          'xl:grid-cols-4',
-          'sm:mx-auto',
-          'max-w-screen-2xl',
-          'my-8'
+          'max-w-5xl',
+          'my-8',
+          'mx-auto',
+          'px-4',
         ])
       }>
+        {/* Airbnb-style listing page */}
+        <div className={clsx([
+          'flex',
+          'flex-col',
+          'w-full',
+        ])}>
+          <h1
+            className={clsx([
+              'text-3xl',
+              'font-semibold',
+              'text-gray-800',
+              'mb-4'
+            ])}
+          >
+            {props.thing.title}
+          </h1>
+          <div className={clsx([
+            'flex',
+            'justify-between'
+          ])}>
+            <div className={clsx([
+              'flex',
+              'flex-row',
+              'items-center',
+              'gap-2',
+              'justify-start',
+            ])}>
+              <div className={clsx([
+                'flex',
+                'flex-row',
+                'items-center',
+              ])}>
+                <FaStar className="mr-1" />
+                <p>4.5</p>
+              </div>
+              <p>·</p>
+              <button className="font-semibold underline">Reviews</button>
+              <p>·</p>
+              <p>{props.thing.location}</p>
+            </div>
+            <div className={clsx([
+              'flex',
+              'flex-row',
+              'items-center',
+              'gap-4',
+              'justify-end',
+            ])}>
+              <button className="flex flex-row items-center gap-2">
+                <FaShare />
+                <span className="font-semibold underline">Share</span>
+              </button>
+              <button className="flex flex-row items-center gap-2">
+                <FaHeart />
+                <span className="font-semibold underline">Save</span>
+              </button>
+            </div>
+          </div>
+        </div>
 
+        <div className={clsx([
+          'flex',
+          'flex-row',
+          'w-full',
+          'mt-8',
+        ])}>
+          <div className={clsx([
+            'flex',
+            'flex-col',
+            'lg:w-1/2',
+            'w-full',
+            'mr-2',
+            'h-96'
+          ])}>
+            <div className={clsx([
+              'flex',
+              'flex-col',
+              'w-full',
+              'h-96',
+              'rounded-lg',
+              'overflow-hidden',
+              'shadow-md',
+            ])}>
+              <img
+                className={clsx([
+                  'w-full',
+                  'h-full',
+                  'object-cover',
+                  'object-center',
+                ])}
+                src={props.thing.images[0].url}
+                alt={props.thing.title}
+              />
+            </div>
+          </div>
+          <div className={clsx([
+            'grid',
+            'grid-cols-2',
+            'gap-2',
+            'w-1/2',
+            'lg:grid',
+            'hidden',
+          ])}>
+            {imagesForGrid.map((image) => (
+              <div key={image.id} className={clsx([
+                'flex',
+                'flex-col',
+                'w-full',
+                'h-42',
+                'rounded-lg',
+                'overflow-hidden',
+                'shadow-md',
+              ])}>
+                <img
+                  className={clsx([
+                    'w-full',
+                    'h-full',
+                    'object-cover',
+                    'object-center',
+                  ])}
+                  src={image.url}
+                  alt={props.thing.title}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className={clsx([
+          'flex',
+          'flex-col',
+          'w-full',
+          'mt-8',
+        ])}>
+          <div className={clsx([
+            'flex',
+            'justify-between',
+            'items-center',
+          ])}>
+            <div className={clsx([
+              'flex',
+              'flex-row',
+              'items-center',
+              'gap-2',
+              'justify-start',
+            ])}>
+              <h2
+                className={clsx([
+                  'text-2xl',
+                  'font-semibold',
+                  'text-gray-800',
+                  'mb-4'
+                ])}
+              >
+                Description
+              </h2>
+            </div>
+            <div className={clsx([
+              'flex',
+              'flex-row',
+              'items-center',
+              'gap-4',
+              'justify-end',
+            ])}>
+              <button className={clsx([
+                'bg-white',
+                'rounded-lg',
+                'p-2',
+                'border',
+                'border-black',
+                'focus:outline-none',
+                'focus:ring-2',
+                'focus:ring-offset-2',
+                'focus:ring-offset-gray-100',
+                'focus:ring-indigo-500',
+              ])}>
+                <div className="flex flex-row items-center gap-2 text-md">
+                  <HiViewGrid />
+                  View all photos
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <div className={clsx([
+            'flex',
+            'flex-col',
+            'w-full',
+            'mt-4',
+          ])}>
+            <p className={clsx([
+              'text-gray-600',
+              'text-sm',
+            ])}>
+              {props.thing.description}
+            </p>
+          </div>
+          
+          <hr className={
+            clsx([
+              'border',
+              'border-gray-300',
+              'my-8',
+            ])
+          } />
+
+          {/* TODO: Insert rental form here */}
+                
+          <hr className={
+            clsx([
+              'border',
+              'border-gray-300',
+              'my-8',
+            ])
+          } />
+
+          {/* TODO: Reviews */}
+
+        </div>
       </div>
     </>
   )
 };
 
-export const getServerSideProps: GetServerSideProps<{ thing: Thing }> = async (context) => {
+export const getServerSideProps: GetServerSideProps<{ thing: (Thing & {
+  images: ThingImage[];
+  reviews: ThingReview[];
+  category: Category[];
+}) }> = async (context) => {
   const { slug } = context.query;
 
   const thing = await prisma.thing.findUnique({
     where: {
       slug: slug as string,
     },
+    include: {
+      images: true,
+      reviews: true,
+      category: true,
+    }
   });
 
   if (!thing) {

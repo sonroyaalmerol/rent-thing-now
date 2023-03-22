@@ -1,3 +1,4 @@
+import { Thing } from "@prisma/client";
 import clsx from "clsx";
 import Link from "next/link";
 import React from "react";
@@ -6,19 +7,21 @@ import { FaStar } from "react-icons/fa";
 import { currencyFormat } from 'simple-currency-format';
 
 interface ThingCardProps extends React.HTMLAttributes<HTMLDivElement> {
-  thing: {
-    name: string;
-    description: string;
-    image: string;
-    price: number;
+  thing: Thing & {
     owner: {
-      name: string;
-      image: string;
-    }
+        name: string | null;
+        image: string | null;
+        email: string | null;
+    };
+    images: {
+        caption: string;
+        url: string;
+    }[];
   };
+  href?: string;
 }
 
-const ThingCard: React.FC<ThingCardProps> = ({ thing, ...props }) => (
+const ThingCard: React.FC<ThingCardProps> = ({ thing, href, ...props }) => (
   <div {...props} className={
     clsx([
       'inline-block',
@@ -32,15 +35,15 @@ const ThingCard: React.FC<ThingCardProps> = ({ thing, ...props }) => (
     <div className="flex items-center justify-center mb-4 bg-gray-100 rounded-xl w-80 h-80">
       <img
         className="object-cover w-full h-full rounded-xl"
-        src={thing.image}
-        alt={thing.name}
+        src={thing.images[0]?.url ?? 'https://loremflickr.com/640/640'}
+        alt={thing.images[0]?.caption ?? 'Thing Image'}
       />
     </div>
-    <Link href="/" className="flex flex-col items-start justify-start w-full">
+    <Link href={`/things/${thing.slug}`} className="flex flex-col items-start justify-start w-full">
       
       <div className="flex items-center justify-between w-full">
         <div className="flex items-center justify-start">
-          <h3 className="mb-2 text-lg font-semibold text-gray-800">{thing.name}</h3>
+          <h3 className="mb-2 text-lg font-semibold text-gray-800">{thing.title}</h3>
         </div>
         <div className="flex items-center justify-end">
           <FaStar className="mr-1" /> 4.5
@@ -49,14 +52,15 @@ const ThingCard: React.FC<ThingCardProps> = ({ thing, ...props }) => (
       <p className="mb-2 text-sm text-gray-600">{thing.description}</p>
       <div className="flex items-center justify-between w-full">
         <div className="flex items-center justify-start">
-          <p className="mr-2 text-2xl font-bold text-black">{currencyFormat(thing.price, 'en-US', 'USD')}</p>
+          <p className="mr-2 text-2xl font-bold text-black">{currencyFormat(thing.rate, 'en-US', 'USD')}</p>
         </div>
         <div className="flex items-center justify-end">
           <p className="text-sm text-gray-600">{thing.owner.name}</p>
           <img
             className="object-cover w-8 h-8 ml-2 rounded-full"
-            src={thing.owner.image}
-            alt={thing.owner.name}
+            src={thing.owner.image ?? 'https://loremflickr.com/640/640'}
+            alt={thing.owner.name ?? 'User Image'}
+            referrerPolicy="no-referrer"
           />
         </div>
       </div>
