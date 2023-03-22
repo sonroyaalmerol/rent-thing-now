@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import {
   Category, Thing, ThingImage, ThingReview, User,
 } from '@prisma/client';
-import { HiViewGrid } from 'react-icons/hi';
+import ViewAllPhotosButton from './ViewAllPhotosButton';
 
 interface ThingDescriptionProps {
   thing: (Thing & {
@@ -50,26 +50,7 @@ const ThingDescription: React.FC<ThingDescriptionProps> = ({ thing }) => (
         'justify-end',
       ])}
       >
-        <button
-          type="button"
-          className={clsx([
-            'bg-white',
-            'rounded-lg',
-            'p-2',
-            'border',
-            'border-black',
-            'focus:outline-none',
-            'focus:ring-2',
-            'focus:ring-offset-2',
-            'focus:ring-offset-gray-100',
-            'focus:ring-indigo-500',
-          ])}
-        >
-          <div className="flex flex-row items-center gap-2">
-            <HiViewGrid />
-            View all photos
-          </div>
-        </button>
+        <ViewAllPhotosButton thing={thing} />
       </div>
     </div>
 

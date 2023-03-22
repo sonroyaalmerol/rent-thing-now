@@ -1,14 +1,42 @@
 import useOnClickOutside from '@/utils/useOnClickOutside';
 import clsx from 'clsx';
-import { Sidebar } from 'flowbite-react';
 import React from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 
 import {
   FaBars, FaBasketballBall, FaCameraRetro, FaFire, FaMusic, FaSnowman, FaTools,
 } from 'react-icons/fa';
 import { GiConsoleController } from 'react-icons/gi';
 import { useRouter } from 'next/router';
+
+const Sidebar = dynamic(
+  () => import('flowbite-react').then((c) => c.Sidebar),
+  {
+    ssr: false,
+  },
+);
+
+const SidebarItems = dynamic(
+  () => import('flowbite-react').then((c) => c.Sidebar.Items),
+  {
+    ssr: false,
+  },
+);
+
+const SidebarItemGroup = dynamic(
+  () => import('flowbite-react').then((c) => c.Sidebar.ItemGroup),
+  {
+    ssr: false,
+  },
+);
+
+const SidebarItem = dynamic(
+  () => import('flowbite-react').then((c) => c.Sidebar.Item),
+  {
+    ssr: false,
+  },
+);
 
 const MobileSidebar = () => {
   const ref = React.useRef(null);
@@ -63,65 +91,65 @@ const MobileSidebar = () => {
         ref={ref}
       >
         <Sidebar aria-label="Default sidebar example">
-          <Sidebar.Items>
-            <Sidebar.ItemGroup>
+          <SidebarItems>
+            <SidebarItemGroup>
               <Link href="/">
-                <Sidebar.Item
+                <SidebarItem
                   icon={FaFire}
                 >
                   Trending
-                </Sidebar.Item>
+                </SidebarItem>
               </Link>
 
               <Link href="/work-tools">
-                <Sidebar.Item
+                <SidebarItem
                   icon={FaTools}
                 >
                   Work Tools
-                </Sidebar.Item>
+                </SidebarItem>
               </Link>
 
               <Link href="/photography">
-                <Sidebar.Item
+                <SidebarItem
                   icon={FaCameraRetro}
                 >
                   Photography
-                </Sidebar.Item>
+                </SidebarItem>
               </Link>
 
               <Link href="/gaming">
-                <Sidebar.Item
+                <SidebarItem
                   icon={GiConsoleController}
                 >
                   Gaming
-                </Sidebar.Item>
+                </SidebarItem>
               </Link>
 
               <Link href="/instruments">
-                <Sidebar.Item
+                <SidebarItem
                   icon={FaMusic}
                 >
                   Instruments
-                </Sidebar.Item>
+                </SidebarItem>
               </Link>
 
               <Link href="/winter-things">
-                <Sidebar.Item
+                <SidebarItem
                   icon={FaSnowman}
                 >
                   Winter Things
-                </Sidebar.Item>
+                </SidebarItem>
               </Link>
 
               <Link href="/sports">
-                <Sidebar.Item
+                <SidebarItem
                   icon={FaBasketballBall}
                 >
                   Sports
-                </Sidebar.Item>
+                </SidebarItem>
               </Link>
-            </Sidebar.ItemGroup>
-          </Sidebar.Items>
+            </SidebarItemGroup>
+          </SidebarItems>
         </Sidebar>
       </div>
 

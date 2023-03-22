@@ -44,6 +44,9 @@ const AccountButton: React.FC = () => {
       <Dropdown.Item>
         Borrowed Things
       </Dropdown.Item>
+      <Dropdown.Item onClick={() => router.push('/saved')}>
+        Saved Things
+      </Dropdown.Item>
       <Dropdown.Divider />
       <Dropdown.Item>
         Earnings

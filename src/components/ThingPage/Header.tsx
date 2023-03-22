@@ -5,12 +5,36 @@ import clsx from 'clsx';
 import { FaHeart, FaShare, FaStar } from 'react-icons/fa';
 import trpc from '@/utils/trpc';
 
+import toast from 'react-hot-toast';
+import { useSession } from 'next-auth/react';
+
 interface ThingHeaderProps {
   thing: Thing;
 }
 
 const ThingHeader: React.FC<ThingHeaderProps> = ({ thing }) => {
   const { data } = trpc.thingTotalReviews.useQuery({ id: thing.id });
+
+  const session = useSession();
+
+  const { data: saved, refetch } = trpc.userSavedThing.useQuery({
+    thingId: thing.id,
+    userId: session.data?.user?.id ?? '',
+  });
+
+  const toggleSave = trpc.userSaveThingToggle.useMutation();
+
+  React.useEffect(() => {
+    refetch();
+  }, [refetch, toggleSave.isSuccess]);
+
+  const copyUrlToClipboard = async () => {
+    if (!navigator.clipboard) {
+      toast.error('Clipboard API not supported');
+      return;
+    }
+    await navigator.clipboard.writeText(window.location.href);
+  };
 
   return (
     <div className={clsx([
@@ -74,17 +98,31 @@ const ThingHeader: React.FC<ThingHeaderProps> = ({ thing }) => {
           <button
             type="button"
             className="flex flex-row items-center gap-2"
+            onClick={() => {
+              copyUrlToClipboard();
+              toast.success('Copied to clipboard!');
+            }}
           >
             <FaShare />
             <span className="font-semibold underline">Share</span>
           </button>
-          <button
-            type="button"
-            className="flex flex-row items-center gap-2"
-          >
-            <FaHeart />
-            <span className="font-semibold underline">Save</span>
-          </button>
+          { session.data?.user && (
+            <button
+              type="button"
+              className="flex flex-row items-center gap-2"
+              onClick={() => {
+                toggleSave.mutate({
+                  thingId: thing.id,
+                  userId: session.data?.user?.id ?? '',
+                });
+              }}
+              disabled={toggleSave.isLoading}
+            >
+              { saved && <FaHeart className="text-red-500" /> }
+              {!saved && <FaHeart />}
+              <span className="font-semibold underline">{`${saved ? 'Unsave' : 'Save'}`}</span>
+            </button>
+          ) }
         </div>
       </div>
     </div>

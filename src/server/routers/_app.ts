@@ -6,6 +6,8 @@ import thingReviewSummary from '@/server/routers/thingReviewSummary';
 import thingTotalReviews from '@/server/routers/thingTotalReviews';
 import thingReviews from '@/server/routers/thingReviews';
 import userCanReviewThing from '@/server/routers/userCanReviewThing';
+import userSavedThing from '@/server/routers/userSavedThing';
+import userSaveThingToggle from '@/server/routers/userSaveThingToggle';
 
 export const appRouter = router({
   thingsByCategory,
@@ -15,6 +17,8 @@ export const appRouter = router({
   thingTotalReviews,
   thingReviews,
   userCanReviewThing,
+  userSavedThing,
+  userSaveThingToggle,
 });
 
 // export type definition of API
