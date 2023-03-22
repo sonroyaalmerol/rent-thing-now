@@ -1,5 +1,6 @@
 import { Thing } from '@prisma/client';
 import clsx from 'clsx';
+import { Carousel } from 'flowbite-react';
 import Link from 'next/link';
 import React from 'react';
 import { FaStar } from 'react-icons/fa';
@@ -34,11 +35,19 @@ const ThingCard: React.FC<ThingCardProps> = ({ thing, ...props }) => (
   }
   >
     <div className="flex items-center justify-center mb-4 bg-gray-100 h-80 w-80 rounded-xl">
-      <img
-        className="object-cover w-full h-full rounded-xl"
-        src={thing.images[0]?.url ?? 'https://loremflickr.com/640/640'}
-        alt={thing.images[0]?.caption ?? 'Thing Image'}
-      />
+      <Carousel
+        slide={false}
+        indicators={false}
+      >
+        { thing.images.map((image) => (
+          <img
+            key={image.url}
+            className="object-cover w-full h-full rounded-xl"
+            src={image?.url ?? 'https://loremflickr.com/640/640'}
+            alt={image?.caption ?? 'Thing Image'}
+          />
+        ))}
+      </Carousel>
     </div>
     <Link
       href={`/things/${thing.slug}`}

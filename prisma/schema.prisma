@@ -134,6 +134,8 @@ model ThingApplication {
 
   quantity            Int
 
+  message             String
+
   supportingDocuments ThingApplicationDocument[]
   payments            Payment[]
 

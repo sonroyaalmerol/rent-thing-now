@@ -34,7 +34,7 @@ export const getServerSideProps: GetServerSideProps<{ category: Category }> = as
 // eslint-disable-next-line no-unused-vars
 const CategoryPage: NextPage<
   InferGetServerSidePropsType<typeof getServerSideProps>
-> = ({ category }) => {
+> = ({ category }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { data } = trpc.thingsByCategory.useQuery({
     id: category.id,
   });
