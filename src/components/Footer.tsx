@@ -247,14 +247,17 @@ const Footer = () => (
         </div>
         <div className="w-full lg:w-1/4">
           <div className="flex items-baseline justify-start mb-2">
-            <Link href="/" className="mr-2">
-            </Link>
+            <Link
+              href="/"
+              className="mr-2"
+            />
 
-            <Link href="/" className="mr-2">
-            </Link>
+            <Link
+              href="/"
+              className="mr-2"
+            />
 
-            <Link href="/">
-            </Link>
+            <Link href="/" />
           </div>
 
           <ul className="leading-relaxed">

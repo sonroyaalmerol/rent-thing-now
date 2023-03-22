@@ -23,7 +23,7 @@ const MyApp = ({ Component, pageProps: { session, ...pageProps } }: AppProps) =>
       </main>
       <Footer />
     </SessionProvider>
-  )
+  );
 };
 
 export default trpc.withTRPC(MyApp);

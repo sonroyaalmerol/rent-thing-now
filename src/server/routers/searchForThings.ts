@@ -17,18 +17,18 @@ export default procedure
           {
             title: {
               search: input.query as string,
-            }
-          }, 
+            },
+          },
           {
             description: {
               search: input.query as string,
-            }
+            },
           },
           {
             location: {
               search: input.query as string,
-            }
-          }
+            },
+          },
         ],
         status: ThingStatus.AVAILABLE,
       },
@@ -46,7 +46,7 @@ export default procedure
             caption: true,
           },
         },
-      }
+      },
     });
 
     return things;

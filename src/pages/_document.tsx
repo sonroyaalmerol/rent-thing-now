@@ -1,9 +1,9 @@
 import {
-  Html, Head, Main, NextScript, DocumentProps,
+  Html, Head, Main, NextScript,
 } from 'next/document';
 
 // eslint-disable-next-line no-unused-vars
-const Document = () => (
+const Document = (props: any) => (
   <Html lang="en">
     <Head />
     <body>

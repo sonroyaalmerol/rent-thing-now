@@ -6,12 +6,12 @@ import Navbar from '@/components/Navbar';
 
 import { useRouter } from 'next/router';
 
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession, signIn } from 'next-auth/react';
 import AccountButton from './AccountButton';
 
 const Header = () => {
   const router = useRouter();
-  const { data: session, status } = useSession();
+  const { status } = useSession();
 
   const [searchQuery, setSearchQuery] = React.useState('');
 
@@ -21,14 +21,16 @@ const Header = () => {
   };
 
   return (
-    <header className={
-      clsx([
-        'fixed',
-        'top-0',
-        'left-0',
-        'w-full',
-      ])
-    }>
+    <header
+      className={
+        clsx([
+          'fixed',
+          'top-0',
+          'left-0',
+          'w-full',
+        ])
+      }
+    >
       <div className={
         clsx([
           'py-6',
@@ -39,12 +41,16 @@ const Header = () => {
           'border-gray-100',
           'z-40',
         ])
-      }>
+      }
+      >
         {/* Airbnb-style navbar */}
         <div className="max-w-5xl px-4 mx-auto lg:px-0">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <Link href="/" className="text-2xl font-bold text-gray-800">
+              <Link
+                href="/"
+                className="text-2xl font-bold text-gray-800"
+              >
                 RentThingNow
               </Link>
             </div>
@@ -62,7 +68,7 @@ const Header = () => {
                       'pr-4',
                       'text-sm',
                       'text-gray-700',
-                      'placeholder-gray-500',
+                      'placeholder:text-gray-500',
                       'bg-white',
                       'border',
                       'border-gray-300',
@@ -78,12 +84,13 @@ const Header = () => {
               </form>
             </div>
             <div className="flex items-center">
-              { status === "authenticated" ? (
+              { status === 'authenticated' ? (
                 <AccountButton />
               ) : (
                 <button
+                  type="button"
                   className="mr-4 text-gray-600 hover:underline"
-                  onClick={() => signIn("google")}
+                  onClick={() => signIn('google')}
                 >
                   Login with Google
                 </button>
@@ -92,11 +99,11 @@ const Header = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Navbar */}
       <Navbar />
     </header>
-  )
+  );
 };
 
 export default Header;

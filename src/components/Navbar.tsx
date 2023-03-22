@@ -1,7 +1,9 @@
 import React from 'react';
 import clsx from 'clsx';
 
-import { FaBasketballBall, FaCameraRetro, FaFire, FaMusic, FaSnowman, FaTools } from 'react-icons/fa';
+import {
+  FaBasketballBall, FaCameraRetro, FaFire, FaMusic, FaSnowman, FaTools,
+} from 'react-icons/fa';
 import { GiConsoleController } from 'react-icons/gi';
 import IconButton from '@/components/IconButton';
 import { useRouter } from 'next/router';
@@ -16,9 +18,10 @@ const Navbar = () => {
       clsx([
         'bg-white',
         'w-full',
-        'shadow-md'
+        'shadow-md',
       ])
-    }>
+    }
+    >
       <div
         className={
           clsx([
@@ -27,7 +30,7 @@ const Navbar = () => {
             'mx-auto',
             'flex',
             'items-center',
-            'relative'
+            'relative',
           ])
         }
       >
@@ -80,6 +83,6 @@ const Navbar = () => {
       </div>
     </div>
   );
-}  
+};
 
 export default Navbar;

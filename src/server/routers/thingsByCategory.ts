@@ -11,13 +11,12 @@ export default procedure
     }),
   )
   .query(async ({ input }) => {
-
     const data = await prisma.thing.findMany({
       where: {
         category: {
           some: {
             id: input.id,
-          }
+          },
         },
         status: ThingStatus.AVAILABLE,
       },
@@ -35,7 +34,7 @@ export default procedure
             caption: true,
           },
         },
-      }
+      },
     });
 
     return data;

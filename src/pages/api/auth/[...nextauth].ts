@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
@@ -39,6 +40,6 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-}
+};
 
 export default NextAuth(authOptions);

@@ -1,4 +1,3 @@
-import { z } from 'zod';
 import { procedure } from '@/server/trpc';
 
 import prisma from '@/utils/prisma';
@@ -6,7 +5,6 @@ import { ThingStatus } from '@prisma/client';
 
 export default procedure
   .query(async () => {
-
     const data = await prisma.thing.findMany({
       where: {
         status: ThingStatus.AVAILABLE,
@@ -25,7 +23,7 @@ export default procedure
             caption: true,
           },
         },
-      }
+      },
     });
 
     return data;

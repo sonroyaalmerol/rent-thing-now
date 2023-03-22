@@ -1,6 +1,6 @@
-import clsx from "clsx";
-import Link, { LinkProps } from "next/link";
-import React from "react";
+import clsx from 'clsx';
+import Link, { LinkProps } from 'next/link';
+import React from 'react';
 
 interface IconButtonProps extends LinkProps {
   icon: React.ReactNode;
@@ -9,7 +9,9 @@ interface IconButtonProps extends LinkProps {
 }
 
 const IconButton: React.FC<IconButtonProps> = ({ active, ...props }) => (
-  <Link {...props} className={
+  <Link
+    {...props}
+    className={
     clsx([
       'flex',
       'flex-col',
@@ -26,7 +28,8 @@ const IconButton: React.FC<IconButtonProps> = ({ active, ...props }) => (
       active ? 'underline' : '',
       active ? 'decoration-black' : '',
     ])
-  }>
+  }
+  >
     {props.icon}
     <div
       className={
