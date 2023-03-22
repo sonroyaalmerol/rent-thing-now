@@ -7,6 +7,7 @@ import {
 import { GiConsoleController } from 'react-icons/gi';
 import IconButton from '@/components/IconButton';
 import { useRouter } from 'next/router';
+import SearchBar from './SearchBar';
 
 const Navbar = () => {
   const router = useRouter();
@@ -30,7 +31,22 @@ const Navbar = () => {
             'mx-auto',
             'flex',
             'items-center',
+            'md:hidden',
+          ])
+        }
+      >
+        <SearchBar className="w-full" />
+      </div>
+      <div
+        className={
+          clsx([
+            'h-20',
+            'w-4/5',
+            'mx-auto',
+            'items-center',
             'relative',
+            'md:flex',
+            'hidden',
           ])
         }
       >

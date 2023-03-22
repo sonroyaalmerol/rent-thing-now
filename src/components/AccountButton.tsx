@@ -25,7 +25,7 @@ const AccountButton: React.FC = () => {
             alt="Profile"
             referrerPolicy="no-referrer"
           />
-          <span className="font-semibold">
+          <span className="hidden font-semibold md:block">
             {session?.user?.name}
           </span>
         </div>
