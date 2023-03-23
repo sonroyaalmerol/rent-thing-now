@@ -19,7 +19,6 @@ const ThingHeader: React.FC<ThingHeaderProps> = ({ thing }) => {
 
   const { data: saved, refetch } = trpc.userSavedThing.useQuery({
     thingId: thing.id,
-    userId: session.data?.user?.id ?? '',
   });
 
   const toggleSave = trpc.userSaveThingToggle.useMutation();
@@ -113,7 +112,6 @@ const ThingHeader: React.FC<ThingHeaderProps> = ({ thing }) => {
               onClick={() => {
                 toggleSave.mutate({
                   thingId: thing.id,
-                  userId: session.data?.user?.id ?? '',
                 });
               }}
               disabled={toggleSave.isLoading}

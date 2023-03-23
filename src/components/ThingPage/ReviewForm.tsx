@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, Label, Textarea } from 'flowbite-react';
 import { Thing } from '@prisma/client';
 import trpc from '@/utils/trpc';
-import { useSession } from 'next-auth/react';
 
 interface ReviewFormProps extends React.HTMLAttributes<HTMLFormElement> {
   thing: Thing;
@@ -13,11 +12,8 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ thing }) => {
     e.preventDefault();
   };
 
-  const { data: sessionData } = useSession();
-
   const { data } = trpc.userCanReviewThing.useQuery({
     thingId: thing.id,
-    userId: sessionData?.user?.id ?? '',
   });
 
   if (!data) {

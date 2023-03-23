@@ -1,20 +1,19 @@
 import { z } from 'zod';
-import { procedure } from '@/server/trpc';
+import { protectedProcedure } from '@/server/trpc';
 
 import prisma from '@/utils/prisma';
 
-export default procedure
+export default protectedProcedure
   .input(
     z.object({
       thingId: z.string(),
-      userId: z.string(),
     }),
   )
-  .query(async ({ input }) => {
+  .query(async ({ input, ctx }) => {
     const savedThing = await prisma.favoriteThing.findFirst({
       where: {
         thingId: input.thingId,
-        renterId: input.userId,
+        renterId: ctx.session.user.id,
       },
     });
 
