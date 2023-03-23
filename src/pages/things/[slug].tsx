@@ -136,7 +136,7 @@ const ThingDetails: NextPage<
             'w-full',
           ])}
           >
-            <RentalForm />
+            <RentalForm thing={thing} />
           </div>
 
         </div>

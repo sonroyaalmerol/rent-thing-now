@@ -119,9 +119,14 @@ model ThingReview {
 
 enum ThingApplicationStatus {
   PENDING
+  CANCELED
   REJECTED
   WAITING_PAYMENT
   PAID
+  WAITING_PICKUP
+  PICKED_UP
+  WAITING_RETURN
+  RETURNED
 }
 
 model ThingApplication {
