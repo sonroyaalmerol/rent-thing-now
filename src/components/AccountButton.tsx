@@ -4,11 +4,10 @@ import { Dropdown } from 'flowbite-react';
 import clsx from 'clsx';
 
 import { useSession, signOut } from 'next-auth/react';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const AccountButton: React.FC = () => {
   const { data: session } = useSession();
-  const router = useRouter();
 
   return (
     <Dropdown
@@ -34,23 +33,33 @@ const AccountButton: React.FC = () => {
         'z-50',
       ])}
     >
-      <Dropdown.Item onClick={() => router.push('/profile')}>
-        Profile
-      </Dropdown.Item>
+      <Link href="/profile">
+        <Dropdown.Item>
+          Profile
+        </Dropdown.Item>
+      </Link>
       <Dropdown.Divider />
-      <Dropdown.Item>
-        My Things
-      </Dropdown.Item>
-      <Dropdown.Item>
-        Borrowed Things
-      </Dropdown.Item>
-      <Dropdown.Item onClick={() => router.push('/saved')}>
-        Saved Things
-      </Dropdown.Item>
+      <Link href="/my-things">
+        <Dropdown.Item>
+          My Things
+        </Dropdown.Item>
+      </Link>
+      <Link href="/borrowed">
+        <Dropdown.Item>
+          Borrowed Things
+        </Dropdown.Item>
+      </Link>
+      <Link href="/saved">
+        <Dropdown.Item>
+          Saved Things
+        </Dropdown.Item>
+      </Link>
       <Dropdown.Divider />
-      <Dropdown.Item>
-        Earnings
-      </Dropdown.Item>
+      <Link href="/earnings">
+        <Dropdown.Item>
+          Earnings
+        </Dropdown.Item>
+      </Link>
       <Dropdown.Divider />
       <Dropdown.Item onClick={() => signOut()}>
         Sign out
