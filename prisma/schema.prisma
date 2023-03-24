@@ -58,7 +58,6 @@ model Category {
 }
 
 enum ThingRate {
-  HOURLY
   DAILY
   WEEKLY
   MONTHLY

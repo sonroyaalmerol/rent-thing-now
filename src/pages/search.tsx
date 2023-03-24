@@ -3,7 +3,7 @@ import Head from 'next/head';
 
 import React from 'react';
 
-import ThingCard from '@/components/Home/ThingCard';
+import ThingCard from '@/components/ThingCard';
 import clsx from 'clsx';
 
 import trpc from '@/utils/trpc';

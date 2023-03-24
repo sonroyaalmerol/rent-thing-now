@@ -3,7 +3,6 @@ import Head from 'next/head';
 
 import React from 'react';
 
-import ThingCard from '@/components/Home/ThingCard';
 import clsx from 'clsx';
 
 import prisma from '@/utils/prisma';
@@ -12,6 +11,7 @@ import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { getServerSession } from 'next-auth/next';
 import { Thing, ThingApplication } from '@prisma/client';
 import NoThingsFound from '@/components/NoThingsFound';
+import BorrowedThingCard from '@/components/BorrowedThingCard';
 
 export const getServerSideProps: GetServerSideProps<{ thingApplications: (ThingApplication & {
   thing: Thing & {
@@ -106,9 +106,9 @@ const BorrowedThingsPage: NextPage<
       }
     >
       {thingApplications?.map((application) => (
-        <ThingCard
-          key={application.thing.id}
-          thing={application.thing}
+        <BorrowedThingCard
+          key={application.id}
+          application={application}
         />
       ))}
     </div>

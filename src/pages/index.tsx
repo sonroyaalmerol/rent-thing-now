@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
 
-import ThingCard from '@/components/Home/ThingCard';
+import ThingCard from '@/components/ThingCard';
 import clsx from 'clsx';
 import trpc from '@/utils/trpc';
 import NoThingsFound from '@/components/NoThingsFound';
