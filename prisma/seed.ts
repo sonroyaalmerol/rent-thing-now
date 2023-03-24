@@ -1,5 +1,6 @@
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 async function main() {
   const categories = [
     { name: 'Work Tools', description: 'Tools for Work', slug: 'work-tools' },
@@ -9,9 +10,9 @@ async function main() {
     { name: 'Winter Things', description: 'Things needed for winter', slug: 'winter-things' },
     { name: 'Sports', description: 'Sport equipments', slug: 'sports' },
   ];
-  
-  for (const category of categories) {
-    await prisma.category.upsert({
+
+  await Promise.all(
+    categories.map(async (category) => prisma.category.upsert({
       where: { slug: category.slug },
       update: {},
       create: {
@@ -19,18 +20,16 @@ async function main() {
         description: category.description,
         slug: category.slug,
       },
-    });
-
-    console.log(category.name)
-  }
+    })),
+  );
 }
 
 main()
   .then(async () => {
-    await prisma.$disconnect()
+    await prisma.$disconnect();
   })
   .catch(async (e) => {
-    console.error(e)
-    await prisma.$disconnect()
-    process.exit(1)
-  })
+    console.error(e);
+    await prisma.$disconnect();
+    process.exit(1);
+  });

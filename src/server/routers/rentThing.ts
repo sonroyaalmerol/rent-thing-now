@@ -7,19 +7,23 @@ export default protectedProcedure
   .input(
     z.object({
       thingId: z.string(),
-      rating: z.number().min(1).max(5),
-      review: z.string(),
+      startDate: z.date(),
+      endDate: z.date(),
+      quantity: z.number().optional(),
+      message: z.string(),
     }),
   )
   .mutation(async ({ input, ctx }) => {
-    const newReview = await prisma.thingReview.create({
+    const newApplication = await prisma.thingApplication.create({
       data: {
         thingId: input.thingId,
         renterId: ctx.session.user.id ?? '',
-        rating: input.rating,
-        review: input.review,
+        startDate: input.startDate,
+        endDate: input.endDate,
+        quantity: input.quantity ?? 1,
+        message: input.message,
       },
     });
 
-    return newReview;
+    return newApplication;
   });
