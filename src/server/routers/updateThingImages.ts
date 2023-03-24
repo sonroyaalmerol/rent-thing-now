@@ -24,34 +24,17 @@ export default protectedProcedure
 
     if (!thing) throw new TRPCError({ code: 'NOT_FOUND' });
 
-    const images = await prisma.$transaction(input.urls.map((url, i) => prisma.thingImage.create({
-      data: {
-        url,
-        thingId: thing.id,
-        caption: `Image ${i + 1} - ${thing.title}`,
-      },
-    })));
-
-    const updatedThing = await prisma.thing.update({
-      where: {
-        id: thing.id,
-      },
-      data: {
-        images: {
-          disconnect: thing.images.map((image) => ({ id: image.id })),
-          connect: images.map((image) => ({ id: image.id })),
-        },
-      },
-      include: {
-        images: true,
-      },
-    });
-
     await prisma.$transaction(thing.images.map((image) => prisma.thingImage.delete({
       where: {
         id: image.id,
       },
     })));
 
-    return updatedThing;
+    await prisma.$transaction(input.urls.map((url, i) => prisma.thingImage.create({
+      data: {
+        url,
+        thingId: thing.id,
+        caption: `Image ${i + 1} - ${thing.title}`,
+      },
+    })));
   });
