@@ -15,9 +15,16 @@ export default protectedProcedure
       where: {
         thingId: input.thingId,
         renterId: ctx.session.user.id,
-        status: ThingApplicationStatus.PAID,
+        status: ThingApplicationStatus.RETURNED,
       },
     });
 
-    return rentCount > 0;
+    const reviewCount = await prisma.thingReview.count({
+      where: {
+        thingId: input.thingId,
+        renterId: ctx.session.user.id,
+      },
+    });
+
+    return rentCount > reviewCount;
   });

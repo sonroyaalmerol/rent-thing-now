@@ -19,7 +19,6 @@ import Divider from '@/components/ThingPage/Divider';
 import DetailsContainer from '@/components/ThingPage/DetailsContainer';
 import ReviewSummary from '@/components/ThingPage/ReviewSummary';
 import ReviewList from '@/components/ThingPage/ReviewList';
-import { currencyFormat } from 'simple-currency-format';
 import ReviewForm from '@/components/ThingPage/ReviewForm';
 import { useSession } from 'next-auth/react';
 import { Button } from 'flowbite-react';
@@ -111,31 +110,6 @@ const ThingDetails: NextPage<
                 className="mb-1"
                 title="Rent this Thing"
               />
-              <div className={clsx([
-                'flex',
-                'flex-row',
-                'mb-8',
-              ])}
-              >
-                <h6
-                  className={clsx([
-                    'text-4xl',
-                    'font-bold',
-                    'mr-2',
-                  ])}
-                >
-                  {currencyFormat(thing.rate, 'en-US', 'USD')}
-                </h6>
-                <span
-                  className={clsx([
-                    'text-gray-500',
-                    'text-sm',
-                    'self-end',
-                  ])}
-                >
-                  {thing.rateType}
-                </span>
-              </div>
 
               <div className={clsx([
                 'flex',
