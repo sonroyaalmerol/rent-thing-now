@@ -165,7 +165,7 @@ const ThingDetails: NextPage<
                 'mt-4',
               ])}
               >
-                <Link href={`/manage/${thing.slug}`}>
+                <Link href={`/things/${thing.slug}/manage`}>
                   <Button
                     type="button"
                   >

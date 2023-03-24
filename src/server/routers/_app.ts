@@ -12,6 +12,8 @@ import userCanRentThing from '@/server/routers/userCanRentThing';
 import rentThing from '@/server/routers/rentThing';
 import reviewThing from '@/server/routers/reviewThing';
 import thingAvailability from '@/server/routers/thingAvailability';
+import updateThingImages from '@/server/routers/updateThingImages';
+import thingApplicationCount from '@/server/routers/thingApplicationCount';
 
 export const appRouter = router({
   thingsByCategory,
@@ -27,6 +29,8 @@ export const appRouter = router({
   rentThing,
   reviewThing,
   thingAvailability,
+  updateThingImages,
+  thingApplicationCount,
 });
 
 // export type definition of API

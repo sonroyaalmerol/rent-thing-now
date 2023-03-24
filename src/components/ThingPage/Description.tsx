@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import {
   Category, Thing, ThingImage, ThingReview, User,
 } from '@prisma/client';
+import { currencyFormat } from 'simple-currency-format';
 import ViewAllPhotosButton from './ViewAllPhotosButton';
 
 interface ThingDescriptionProps {
@@ -68,6 +69,32 @@ const ThingDescription: React.FC<ThingDescriptionProps> = ({ thing }) => (
       >
         {thing.description}
       </p>
+    </div>
+
+    <div className={clsx([
+      'flex',
+      'flex-row',
+      'my-4',
+    ])}
+    >
+      <h6
+        className={clsx([
+          'text-4xl',
+          'font-bold',
+          'mr-2',
+        ])}
+      >
+        {currencyFormat(thing.rate, 'en-US', 'USD')}
+      </h6>
+      <span
+        className={clsx([
+          'text-gray-500',
+          'text-sm',
+          'self-end',
+        ])}
+      >
+        {thing.rateType}
+      </span>
     </div>
 
     <div className="flex flex-row items-center justify-end mt-2">
