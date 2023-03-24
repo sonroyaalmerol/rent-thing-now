@@ -38,7 +38,11 @@ export default protectedProcedure
           status: ThingApplicationStatus.PENDING,
         },
         include: {
-          renter: true,
+          renter: {
+            include: {
+              profile: true,
+            },
+          },
         },
         orderBy: {
           updatedDate: 'desc',
@@ -58,7 +62,11 @@ export default protectedProcedure
           },
         },
         include: {
-          renter: true,
+          renter: {
+            include: {
+              profile: true,
+            },
+          },
         },
         orderBy: {
           updatedDate: 'desc',
@@ -75,7 +83,11 @@ export default protectedProcedure
           },
         },
         include: {
-          renter: true,
+          renter: {
+            include: {
+              profile: true,
+            },
+          },
         },
         orderBy: {
           updatedDate: 'desc',
@@ -87,7 +99,11 @@ export default protectedProcedure
           status: ThingApplicationStatus.CANCELED,
         },
         include: {
-          renter: true,
+          renter: {
+            include: {
+              profile: true,
+            },
+          },
         },
         orderBy: {
           updatedDate: 'desc',

@@ -1,6 +1,6 @@
 import ApplicationStatusBadge from '@/components/ApplicationStatusBadge';
 import trpc from '@/utils/trpc';
-import { ThingApplication, User } from '@prisma/client';
+import { Profile, ThingApplication, User } from '@prisma/client';
 import clsx from 'clsx';
 import React from 'react';
 import dayjs from 'dayjs';
@@ -9,7 +9,9 @@ import { toast } from 'react-hot-toast';
 
 interface ApplicationCardProps {
   thingApplication: ThingApplication & {
-    renter: User;
+    renter: User & {
+        profile: Profile | null;
+    };
   };
   disabled?: boolean;
   refetch: () => Promise<any>;
@@ -78,6 +80,11 @@ const ApplicationCard: React.FC<ApplicationCardProps> = ({
       </div>
       <p className="">
         {humanizedDateRange}
+      </p>
+      <p className="text-gray-600">
+        Contact Number:
+        {' '}
+        {thingApplication.renter.profile?.phoneNumber ?? 'N/A'}
       </p>
       <p className="text-gray-600">
         {thingApplication.message}
