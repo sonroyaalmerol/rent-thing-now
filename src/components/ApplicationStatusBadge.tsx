@@ -7,6 +7,8 @@ interface ApplicationStatusBadgeProps {
 }
 
 const ApplicationStatusBadge: React.FC<ApplicationStatusBadgeProps> = ({ status }) => {
+  const cleanStatus = status.replace(/_/g, ' ');
+
   if (status === 'PENDING') {
     return (
       <Badge color="gray">
@@ -16,7 +18,7 @@ const ApplicationStatusBadge: React.FC<ApplicationStatusBadgeProps> = ({ status 
   } if (status === 'REJECTED' || status === 'CANCELED') {
     return (
       <Badge color="failure">
-        REJECTED
+        { cleanStatus }
       </Badge>
     );
   } if (status === 'RETURNED') {
@@ -29,7 +31,7 @@ const ApplicationStatusBadge: React.FC<ApplicationStatusBadgeProps> = ({ status 
 
   return (
     <Badge color="info">
-      { status }
+      { cleanStatus }
     </Badge>
   );
 };

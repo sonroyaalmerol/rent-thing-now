@@ -32,13 +32,19 @@ export default protectedProcedure
       processed,
       canceled,
     ] = await prisma.$transaction([
-      prisma.thingApplication.count({
+      prisma.thingApplication.findMany({
         where: {
           thingId: input.id,
           status: ThingApplicationStatus.PENDING,
         },
+        include: {
+          renter: true,
+        },
+        orderBy: {
+          updatedDate: 'desc',
+        },
       }),
-      prisma.thingApplication.count({
+      prisma.thingApplication.findMany({
         where: {
           thingId: input.id,
           status: {
@@ -51,8 +57,14 @@ export default protectedProcedure
             ],
           },
         },
+        include: {
+          renter: true,
+        },
+        orderBy: {
+          updatedDate: 'desc',
+        },
       }),
-      prisma.thingApplication.count({
+      prisma.thingApplication.findMany({
         where: {
           thingId: input.id,
           status: {
@@ -62,11 +74,23 @@ export default protectedProcedure
             ],
           },
         },
+        include: {
+          renter: true,
+        },
+        orderBy: {
+          updatedDate: 'desc',
+        },
       }),
-      prisma.thingApplication.count({
+      prisma.thingApplication.findMany({
         where: {
           thingId: input.id,
           status: ThingApplicationStatus.CANCELED,
+        },
+        include: {
+          renter: true,
+        },
+        orderBy: {
+          updatedDate: 'desc',
         },
       }),
     ]);

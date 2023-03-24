@@ -14,6 +14,10 @@ import reviewThing from '@/server/routers/reviewThing';
 import thingAvailability from '@/server/routers/thingAvailability';
 import updateThingImages from '@/server/routers/updateThingImages';
 import thingApplicationCount from '@/server/routers/thingApplicationCount';
+import thingApplications from '@/server/routers/thingApplications';
+import thingApplicationApprove from '@/server/routers/thingApplicationApprove';
+import thingApplicationReject from '@/server/routers/thingApplicationReject';
+import thingApplicationCanceled from '@/server/routers/thingApplicationCanceled';
 
 export const appRouter = router({
   thingsByCategory,
@@ -31,6 +35,10 @@ export const appRouter = router({
   thingAvailability,
   updateThingImages,
   thingApplicationCount,
+  thingApplications,
+  thingApplicationApprove,
+  thingApplicationReject,
+  thingApplicationCanceled,
 });
 
 // export type definition of API
