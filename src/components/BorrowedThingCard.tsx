@@ -28,15 +28,6 @@ interface BorrowedThingCardProps extends React.HTMLAttributes<HTMLDivElement> {
 const BorrowedThingCard: React.FC<BorrowedThingCardProps> = ({ application, ...props }) => {
   const { thing } = application;
 
-  const totalPrice = React.useMemo(() => {
-    const endDate = dayjs(application.endDate);
-    const startDate = dayjs(application.startDate);
-
-    const days = endDate.diff(startDate, 'day');
-
-    return application.thing.rate * days * application.quantity;
-  }, [application]);
-
   const humanizedDateRange = React.useMemo(() => {
     const endDate = dayjs(application.endDate);
     const startDate = dayjs(application.startDate);
@@ -94,7 +85,7 @@ const BorrowedThingCard: React.FC<BorrowedThingCardProps> = ({ application, ...p
         </p>
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center justify-start gap-1 mr-2">
-            <p className="text-2xl font-bold text-black ">{currencyFormat(totalPrice, 'en-US', 'USD')}</p>
+            <p className="text-2xl font-bold text-black ">{currencyFormat(application.totalPrice, 'en-US', 'USD')}</p>
             <span className="text-xs font-semibold text-gray-600">TOTAL</span>
           </div>
           <div className="flex items-center justify-end">

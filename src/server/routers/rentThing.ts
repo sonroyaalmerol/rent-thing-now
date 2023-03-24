@@ -3,6 +3,8 @@ import { protectedProcedure } from '@/server/trpc';
 
 import prisma from '@/utils/prisma';
 
+import dayjs from 'dayjs';
+
 export default protectedProcedure
   .input(
     z.object({
@@ -14,6 +16,15 @@ export default protectedProcedure
     }),
   )
   .mutation(async ({ input, ctx }) => {
+    const thing = await prisma.thing.findUnique({
+      where: {
+        id: input.thingId,
+      },
+    });
+
+    const totalDays = dayjs(input.endDate).diff(dayjs(input.startDate), 'day');
+    const totalAmount = (thing?.rate ?? 0) * totalDays * (input.quantity ?? 1);
+
     const newApplication = await prisma.thingApplication.create({
       data: {
         thingId: input.thingId,
@@ -22,6 +33,7 @@ export default protectedProcedure
         endDate: input.endDate,
         quantity: input.quantity ?? 1,
         message: input.message,
+        totalPrice: totalAmount,
       },
     });
 

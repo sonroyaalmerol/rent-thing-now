@@ -139,6 +139,7 @@ model ThingApplication {
   endDate             DateTime
 
   quantity            Int
+  totalPrice          Float       @default(0)
 
   message             String
 

@@ -1,14 +1,18 @@
 import ApplicationStatusBadge from '@/components/ApplicationStatusBadge';
 import trpc from '@/utils/trpc';
-import { Profile, ThingApplication, User } from '@prisma/client';
+import {
+  Profile, Thing, ThingApplication, User,
+} from '@prisma/client';
 import clsx from 'clsx';
 import React from 'react';
 import dayjs from 'dayjs';
 import { Button } from 'flowbite-react';
 import { toast } from 'react-hot-toast';
+import { currencyFormat } from 'simple-currency-format';
 
 interface ApplicationCardProps {
   thingApplication: ThingApplication & {
+    thing: Thing;
     renter: User & {
         profile: Profile | null;
     };
@@ -89,6 +93,10 @@ const ApplicationCard: React.FC<ApplicationCardProps> = ({
       <p className="text-gray-600">
         {thingApplication.message}
       </p>
+      <div className="flex items-center justify-start gap-1 mr-2">
+        <p className="text-2xl font-bold text-black ">{currencyFormat(thingApplication.totalPrice, 'en-US', 'USD')}</p>
+        <span className="text-xs font-semibold text-gray-600">TOTAL</span>
+      </div>
       { disabled ? null : (
         <div className="grid grid-cols-2 gap-2">
           { approveText ? (

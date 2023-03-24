@@ -43,6 +43,7 @@ export default protectedProcedure
               profile: true,
             },
           },
+          thing: true,
         },
         orderBy: {
           updatedDate: 'desc',
@@ -67,6 +68,7 @@ export default protectedProcedure
               profile: true,
             },
           },
+          thing: true,
         },
         orderBy: {
           updatedDate: 'desc',
@@ -88,6 +90,7 @@ export default protectedProcedure
               profile: true,
             },
           },
+          thing: true,
         },
         orderBy: {
           updatedDate: 'desc',
@@ -104,6 +107,7 @@ export default protectedProcedure
               profile: true,
             },
           },
+          thing: true,
         },
         orderBy: {
           updatedDate: 'desc',

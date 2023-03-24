@@ -55,12 +55,6 @@ const AccountButton: React.FC = () => {
         </Dropdown.Item>
       </Link>
       <Dropdown.Divider />
-      <Link href="/earnings">
-        <Dropdown.Item>
-          Earnings
-        </Dropdown.Item>
-      </Link>
-      <Dropdown.Divider />
       <Dropdown.Item onClick={() => signOut()}>
         Sign out
       </Dropdown.Item>
