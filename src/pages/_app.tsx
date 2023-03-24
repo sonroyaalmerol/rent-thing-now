@@ -12,6 +12,7 @@ import Header from '@/components/Header';
 import { Toast } from 'flowbite-react';
 import clsx from 'clsx';
 import { HiCheck, HiExclamation } from 'react-icons/hi';
+import { pathNamesWithNavbar } from '@/components/Navbar';
 
 const MyApp = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
   const router = useRouter();
@@ -20,7 +21,7 @@ const MyApp = ({ Component, pageProps: { session, ...pageProps } }: AppProps) =>
     <SessionProvider session={pageProps.session}>
       <Header />
       <div className="h-24" />
-      {router.pathname !== '/things/[slug]' && <div className="h-20" />}
+      {pathNamesWithNavbar.includes(router.pathname) && <div className="h-20" />}
       <main>
         <NextNProgress />
         <Component {...pageProps} />

@@ -9,10 +9,15 @@ import IconButton from '@/components/IconButton';
 import { useRouter } from 'next/router';
 import SearchBar from './SearchBar';
 
+export const pathNamesWithNavbar = [
+  '/',
+  '/[slug]',
+];
+
 const Navbar = () => {
   const router = useRouter();
 
-  if (router.pathname === '/things/[slug]') return null;
+  if (!pathNamesWithNavbar.includes(router.pathname)) return null;
 
   return (
     <div className={

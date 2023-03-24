@@ -88,6 +88,19 @@ const BorrowedThingsPage: NextPage<
         href="/favicon.ico"
       />
     </Head>
+    <div
+      className={
+        clsx([
+          'sm:mx-auto',
+          'max-w-screen-2xl',
+          'my-8',
+        ])
+      }
+    >
+      <h1 className="text-3xl font-bold text-gray-900">
+        Borrowed Things
+      </h1>
+    </div>
     { (thingApplications?.length === 0) && (
       <NoThingsFound />
     ) }

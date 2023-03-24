@@ -85,6 +85,19 @@ const MyThingsPage: NextPage<
     <div
       className={
         clsx([
+          'sm:mx-auto',
+          'max-w-screen-2xl',
+          'my-8',
+        ])
+      }
+    >
+      <h1 className="text-3xl font-bold text-gray-900">
+        My Things
+      </h1>
+    </div>
+    <div
+      className={
+        clsx([
           'grid',
           'grid-flow-row-dense',
           'md:grid-cols-2',
