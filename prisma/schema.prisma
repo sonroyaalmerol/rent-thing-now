@@ -218,11 +218,23 @@ model SupportRequest {
   requestDate DateTime    @default(now())
   status      String
 
+  reply      SupportReply?
   thing       Thing @relation(fields: [thingId], references: [id])
   renter       User   @relation(fields: [renterId], references: [id])
 
   @@index([thingId])
   @@index([renterId])
+}
+
+model SupportReply {
+  id          String      @id @default(cuid())
+  requestId   String      @unique
+  reply       String
+  replyDate   DateTime    @default(now())
+
+  request     SupportRequest @relation(fields: [requestId], references: [id])
+
+  @@index([requestId])
 }
 
 model ThingAdministrator {
