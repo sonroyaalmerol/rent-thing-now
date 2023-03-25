@@ -58,6 +58,9 @@ export const getServerSideProps: GetServerSideProps<{ things: (Thing & {
         },
       },
     },
+    orderBy: {
+      createdAt: 'desc',
+    },
   });
 
   const data = savedThings.map((savedThing) => savedThing.thing);

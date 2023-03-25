@@ -201,6 +201,8 @@ model FavoriteThing {
   thing      Thing @relation(fields: [thingId], references: [id])
   renter      User   @relation(fields: [renterId], references: [id])
 
+  createdAt  DateTime    @default(now())
+
   @@index([thingId])
   @@index([renterId])
 }

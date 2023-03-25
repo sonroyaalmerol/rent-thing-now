@@ -96,10 +96,11 @@ const ThingDetails: NextPage<
 
         <DetailsContainer>
           <ThingDescription thing={thing} />
+          { session?.data?.user && (
+            <Divider />
+          ) }
 
-          <Divider />
-
-          { thing.ownerId !== session?.data?.user?.id ? (
+          { session?.data?.user && (thing.ownerId !== session.data.user?.id) ? (
             <div className={clsx([
               'flex',
               'flex-col',
@@ -120,7 +121,8 @@ const ThingDetails: NextPage<
                 <RentalForm thing={thing} />
               </div>
             </div>
-          ) : (
+          ) : null }
+          { session?.data?.user && (thing.ownerId === session.data.user?.id) ? (
             <div className={clsx([
               'flex',
               'flex-col',
@@ -150,7 +152,7 @@ const ThingDetails: NextPage<
               </div>
 
             </div>
-          ) }
+          ) : null }
 
           <Divider />
 

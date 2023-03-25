@@ -60,6 +60,9 @@ export const getServerSideProps: GetServerSideProps<{ thingApplications: (ThingA
         },
       },
     },
+    orderBy: {
+      updatedDate: 'desc',
+    },
   });
 
   return {

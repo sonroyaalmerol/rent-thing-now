@@ -6,9 +6,10 @@ import Datepicker from 'react-tailwindcss-datepicker';
 import type { DateValueType } from 'react-tailwindcss-datepicker/dist/types';
 import trpc from '@/utils/trpc';
 import { Thing } from '@prisma/client';
-import Link from 'next/link';
+import dayjs from 'dayjs';
 
 import { toast } from 'react-hot-toast';
+import ApplicationStatusBadge from '@/components/ApplicationStatusBadge';
 
 interface RentalFormProps {
   thing: Thing,
@@ -58,11 +59,24 @@ const RentalForm: React.FC<RentalFormProps> = ({ thing }) => {
     thingId: thing.id,
   });
 
+  const { data: currentApplication } = trpc.thingCurrentApplication.useQuery({
+    id: thing.id,
+  });
+
+  const humanizedDateRange = React.useMemo(() => {
+    if (currentApplication?.startDate && currentApplication?.endDate) {
+      return `${dayjs(currentApplication?.startDate).format('MMM D')} - ${dayjs(currentApplication?.endDate).format('MMM D')}`;
+    }
+    return '';
+  }, [currentApplication]);
+
   const { data: availableQuantity, isFetched } = trpc.thingAvailability.useQuery({
     id: thing.id,
     startDate: sureDateRange.startDate as Date,
     endDate: sureDateRange.endDate as Date,
   });
+
+  const cancelMutation = trpc.thingApplicationCanceled.useMutation();
 
   React.useEffect(() => {
     if (!rentMutation.isLoading) {
@@ -78,15 +92,47 @@ const RentalForm: React.FC<RentalFormProps> = ({ thing }) => {
 
   if (!data) {
     return (
-      <div className="flex flex-col gap-4">
-        <span className="text-gray-500">
-          You already have an ongoing rental request for this Thing!
+      <div className="flex flex-col gap-1">
+        <span className="my-2 text-lg font-semibold">
+          Ongoing rental request
         </span>
-        <Link href="/borrowed">
-          <Button>
-            View Rental Request
+        <span className="text-gray-500">
+          Date:
+          {' '}
+          {humanizedDateRange}
+        </span>
+        <span className="text-gray-500">
+          Quantity:
+          {' '}
+          {currentApplication?.quantity}
+        </span>
+        <span className="text-gray-500">
+          Message you sent:
+          {' '}
+          {currentApplication?.message}
+        </span>
+        <div className="flex flex-row items-center gap-4 mt-4">
+          <span className="text-gray-500">
+            Status:
+          </span>
+          <ApplicationStatusBadge status={currentApplication?.status ?? 'PENDING'} />
+        </div>
+        <div className="flex flex-row items-center gap-4 mt-4">
+          <Button
+            color="red"
+            className="w-full"
+            onClick={async () => {
+              await cancelMutation.mutateAsync({
+                id: currentApplication?.id ?? '',
+              });
+              refetch();
+              toast.success('Rental request cancelled!');
+            }}
+            disabled={cancelMutation.isLoading}
+          >
+            Cancel request
           </Button>
-        </Link>
+        </div>
       </div>
     );
   }

@@ -12,9 +12,10 @@ export default protectedProcedure
     }),
   )
   .mutation(async ({ input, ctx }) => {
-    const thingApplication = await prisma.thingApplication.findUnique({
+    const thingApplication = await prisma.thingApplication.findFirst({
       where: {
         id: input.id,
+        renterId: ctx.session.user.id,
       },
       include: {
         thing: true,
@@ -25,13 +26,9 @@ export default protectedProcedure
       throw new TRPCError({ code: 'NOT_FOUND' });
     }
 
-    if (thingApplication.thing.ownerId !== ctx.session.user.id) {
-      throw new TRPCError({ code: 'UNAUTHORIZED' });
-    }
-
     await prisma.thingApplication.update({
       where: {
-        id: input.id,
+        id: thingApplication.id,
       },
       data: {
         status: ThingApplicationStatus.CANCELED,

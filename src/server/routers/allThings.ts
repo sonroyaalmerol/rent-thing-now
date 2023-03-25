@@ -23,6 +23,12 @@ export default procedure
             caption: true,
           },
         },
+        reviews: true,
+      },
+      orderBy: {
+        reviews: {
+          _count: 'desc',
+        },
       },
     });
 
