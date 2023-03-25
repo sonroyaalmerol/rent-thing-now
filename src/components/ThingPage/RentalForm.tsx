@@ -10,6 +10,7 @@ import dayjs from 'dayjs';
 
 import { toast } from 'react-hot-toast';
 import ApplicationStatusBadge from '@/components/ApplicationStatusBadge';
+import Link from 'next/link';
 
 interface RentalFormProps {
   thing: Thing,
@@ -90,6 +91,10 @@ const RentalForm: React.FC<RentalFormProps> = ({ thing }) => {
     }
   }, [refetch, rentMutation.isError, rentMutation.isLoading, rentMutation.isSuccess]);
 
+  const { data: isPaid } = trpc.checkApplicationPayment.useQuery({
+    id: currentApplication?.id ?? '',
+  });
+
   if (!data) {
     return (
       <div className="flex flex-col gap-1">
@@ -117,7 +122,21 @@ const RentalForm: React.FC<RentalFormProps> = ({ thing }) => {
           </span>
           <ApplicationStatusBadge status={currentApplication?.status ?? 'PENDING'} />
         </div>
-        <div className="flex flex-row items-center gap-4 mt-4">
+        <div className="flex flex-row flex-wrap items-center gap-4 mt-4">
+          { !isPaid && (
+            <Link
+              href={currentApplication?.stripeSessionUrl ?? ''}
+              target="_blank"
+              className="w-full"
+            >
+              <Button
+                color="green"
+                className="w-full"
+              >
+                Pay now
+              </Button>
+            </Link>
+          ) }
           <Button
             color="red"
             className="w-full"

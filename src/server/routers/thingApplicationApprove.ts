@@ -4,6 +4,7 @@ import { protectedProcedure } from '@/server/trpc';
 import prisma from '@/utils/prisma';
 import { TRPCError } from '@trpc/server';
 import { ThingApplicationStatus } from '@prisma/client';
+import { createSession, getSession } from '@/utils/stripe';
 
 export default protectedProcedure
   .input(
@@ -18,6 +19,7 @@ export default protectedProcedure
       },
       include: {
         thing: true,
+        renter: true,
       },
     });
 
@@ -30,17 +32,28 @@ export default protectedProcedure
     }
 
     switch (thingApplication.status) {
-      case ThingApplicationStatus.PENDING:
+      case ThingApplicationStatus.PENDING: {
+        const stripeSession = await createSession(thingApplication);
+
         await prisma.thingApplication.update({
           where: {
             id: input.id,
           },
           data: {
             status: ThingApplicationStatus.WAITING_PAYMENT,
+            stripeSessionId: stripeSession.id,
+            stripeSessionUrl: stripeSession.url,
           },
         });
         break;
-      case ThingApplicationStatus.WAITING_PAYMENT:
+      }
+      case ThingApplicationStatus.WAITING_PAYMENT: {
+        const stripeSession = await getSession(thingApplication.stripeSessionId ?? '');
+
+        if (stripeSession.payment_status !== 'paid') {
+          throw new TRPCError({ code: 'NOT_FOUND', message: 'Payment not completed!' });
+        }
+
         await prisma.thingApplication.update({
           where: {
             id: input.id,
@@ -50,6 +63,7 @@ export default protectedProcedure
           },
         });
         break;
+      }
       case ThingApplicationStatus.PAID:
         await prisma.thingApplication.update({
           where: {

@@ -143,6 +143,9 @@ model ThingApplication {
 
   message             String
 
+  stripeSessionId     String?     @db.Text
+  stripeSessionUrl    String?     @db.Text
+
   supportingDocuments ThingApplicationDocument[]
   payments            Payment[]
 

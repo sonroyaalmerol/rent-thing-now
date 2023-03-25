@@ -44,7 +44,7 @@ const ApplicationCard: React.FC<ApplicationCardProps> = ({
       case 'PENDING':
         return 'Approve';
       case 'WAITING_PAYMENT':
-        return 'Confirm Payment';
+        return 'Check Payment';
       case 'PAID':
         return 'Item Ready';
       case 'WAITING_PICKUP':
@@ -104,12 +104,16 @@ const ApplicationCard: React.FC<ApplicationCardProps> = ({
               color="green"
               onClick={async () => {
                 setIsLoading(true);
-                await approveApplicationMutation.mutateAsync({
-                  id: thingApplication.id,
-                });
+                try {
+                  await approveApplicationMutation.mutateAsync({
+                    id: thingApplication.id,
+                  });
+                  toast.success('Application moved to the next phase!');
+                } catch (e: any) {
+                  toast.error(e.message);
+                }
                 setIsLoading(false);
                 refetch();
-                toast.success('Application moved to the next phase!');
               }}
               disabled={isLoading}
             >
