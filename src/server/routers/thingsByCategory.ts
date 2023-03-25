@@ -35,6 +35,11 @@ export default procedure
           },
         },
       },
+      orderBy: {
+        reviews: {
+          _count: 'desc',
+        },
+      },
     });
 
     return data;
