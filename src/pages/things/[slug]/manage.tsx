@@ -19,6 +19,8 @@ import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import Images from '@/components/ThingPage/Management/Images';
 import trpc from '@/utils/trpc';
 import ApplicationCard from '@/components/ThingPage/Management/ApplicationCard';
+import LendingForm from '@/components/ThingPage/LendingForm';
+import { toast } from 'react-hot-toast';
 
 export const getServerSideProps: GetServerSideProps<{ thing:(Thing & {
   images: ThingImage[];
@@ -65,6 +67,42 @@ const ThingDetails: NextPage<
   const { data, refetch } = trpc.thingApplications.useQuery({
     id: thing.id,
   });
+
+  const updateThingMutation = trpc.updateThing.useMutation();
+
+  const handleSubmit = ({
+    title,
+    description,
+    location,
+    equipmentType,
+    rate,
+    quantity,
+  }: {
+    title: string;
+    description: string;
+    location: string;
+    equipmentType: string;
+    rate: number;
+    quantity: number;
+  }) => {
+    updateThingMutation.mutate({
+      thingId: thing.id,
+      title,
+      description,
+      location,
+      equipmentType,
+      rate,
+      quantity,
+    });
+  };
+
+  React.useEffect(() => {
+    if (updateThingMutation.isSuccess) {
+      toast.success('Thing successfully updated!');
+    } else if (updateThingMutation.isError) {
+      toast.error('Something went wrong. Please try again.');
+    }
+  }, [updateThingMutation.isError, updateThingMutation.isSuccess]);
 
   return (
     <>
@@ -178,7 +216,10 @@ const ThingDetails: NextPage<
             title="Change Details"
             icon={FaCog}
           >
-            Change Details
+            <LendingForm
+              thing={thing}
+              onSubmit={handleSubmit}
+            />
           </Tabs.Item>
         </Tabs.Group>
       </div>

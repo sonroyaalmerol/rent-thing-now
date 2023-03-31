@@ -69,7 +69,7 @@ const PhotoShowcase: React.FC<PhotoShowcaseProps> = ({ thing }) => {
               'object-cover',
               'object-center',
             ])}
-            src={thing.images[0]?.url ?? '/default_large.png'}
+            src={thing.images[0]?.url || '/default_large.png'}
             alt={thing.title ?? 'Thing Image'}
           />
         </div>
@@ -103,7 +103,7 @@ const PhotoShowcase: React.FC<PhotoShowcaseProps> = ({ thing }) => {
                 'object-cover',
                 'object-center',
               ])}
-              src={image.url}
+              src={image.url || '/default_large.png'}
               alt={thing.title}
             />
           </div>

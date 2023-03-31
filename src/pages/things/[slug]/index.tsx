@@ -7,7 +7,7 @@ import clsx from 'clsx';
 
 import prisma from '@/utils/prisma';
 import {
-  Category, Thing, ThingImage, ThingReview, User,
+  Category, Profile, Thing, ThingImage, ThingReview, User,
 } from '@prisma/client';
 
 import RentalForm from '@/components/ThingPage/RentalForm';
@@ -28,7 +28,9 @@ export const getServerSideProps: GetServerSideProps<{ thing: (Thing & {
   images: ThingImage[];
   reviews: ThingReview[];
   category: Category[];
-  owner: User;
+  owner: User & {
+    profile: Profile | null;
+  };
 }) }> = async (context) => {
   const { slug } = context.query;
 
@@ -40,7 +42,11 @@ export const getServerSideProps: GetServerSideProps<{ thing: (Thing & {
       images: true,
       reviews: true,
       category: true,
-      owner: true,
+      owner: {
+        include: {
+          profile: true,
+        },
+      },
     },
   });
 

@@ -2,7 +2,7 @@ import React from 'react';
 
 import clsx from 'clsx';
 import {
-  Category, Thing, ThingImage, ThingReview, User,
+  Category, Profile, Thing, ThingImage, ThingReview, User,
 } from '@prisma/client';
 import { currencyFormat } from 'simple-currency-format';
 import ViewAllPhotosButton from './ViewAllPhotosButton';
@@ -12,7 +12,9 @@ interface ThingDescriptionProps {
     images: ThingImage[];
     reviews: ThingReview[];
     category: Category[];
-    owner: User;
+    owner: User & {
+      profile: Profile | null;
+    };
   });
 }
 
@@ -104,6 +106,12 @@ const ThingDescription: React.FC<ThingDescriptionProps> = ({ thing }) => (
         </h5>
         <span className="text-sm text-gray-500 dark:text-gray-400">
           Thing Owner
+        </span>
+        <span className="text-sm text-gray-500 dark:text-gray-400">
+          {thing.owner.email}
+        </span>
+        <span className="text-sm text-gray-500 dark:text-gray-400">
+          {thing.owner.profile?.phoneNumber}
         </span>
       </div>
       <img

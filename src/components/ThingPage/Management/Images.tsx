@@ -3,6 +3,7 @@ import React from 'react';
 import { Thing, ThingImage } from '@prisma/client';
 import { Button, TextInput } from 'flowbite-react';
 import trpc from '@/utils/trpc';
+import { toast } from 'react-hot-toast';
 import PhotoShowcase from '../PhotoShowcase';
 
 interface ImagesProps {
@@ -12,13 +13,65 @@ interface ImagesProps {
 }
 
 const Images: React.FC<ImagesProps> = ({ thing }) => {
-  const [images, setImages] = React.useState<ThingImage[]>([]);
+  const [images, setImages] = React.useState<ThingImage[]>([
+    {
+      id: 'default1',
+      url: '',
+      thingId: '',
+      caption: '',
+      createdAt: new Date(),
+    },
+    {
+      id: 'default2',
+      url: '',
+      thingId: '',
+      caption: '',
+      createdAt: new Date(),
+    },
+    {
+      id: 'default3',
+      url: '',
+      thingId: '',
+      caption: '',
+      createdAt: new Date(),
+    },
+    {
+      id: 'default4',
+      url: '',
+      thingId: '',
+      caption: '',
+      createdAt: new Date(),
+    },
+    {
+      id: 'default5',
+      url: '',
+      thingId: '',
+      caption: '',
+      createdAt: new Date(),
+    },
+  ]);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   const imagesMutation = trpc.updateThingImages.useMutation();
 
   React.useEffect(() => {
+    if (thing.images.length === 0) return;
     setImages([...thing.images]);
+    if (thing.images.length < 5) {
+      setImages((prev) => {
+        const tmp = [...prev];
+        for (let i = thing.images.length; i < 5; i += 1) {
+          tmp.push({
+            id: `default${i + 1}`,
+            url: '',
+            thingId: '',
+            caption: '',
+            createdAt: new Date(),
+          });
+        }
+        return tmp;
+      });
+    }
   }, [thing.images]);
 
   const modifiedThing = React.useMemo(() => ({
@@ -33,6 +86,7 @@ const Images: React.FC<ImagesProps> = ({ thing }) => {
       thingId: thing.id,
       urls: images.map((image) => (image.url)),
     });
+    toast.success('Images updated');
     setIsSubmitting(false);
   };
 
@@ -50,6 +104,7 @@ const Images: React.FC<ImagesProps> = ({ thing }) => {
             onChange={(e) => {
               setImages((prev) => {
                 const tmp = [...prev];
+                console.log(tmp);
                 tmp[0].url = e.target.value;
                 return tmp;
               });

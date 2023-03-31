@@ -20,6 +20,8 @@ import thingApplicationReject from '@/server/routers/thingApplicationReject';
 import thingApplicationCanceled from '@/server/routers/thingApplicationCanceled';
 import thingCurrentApplication from '@/server/routers/thingCurrentApplication';
 import checkApplicationPayment from '@/server/routers/checkApplicationPayment';
+import lendThing from '@/server/routers/lendThing';
+import updateThing from '@/server/routers/updateThing';
 
 export const appRouter = router({
   thingsByCategory,
@@ -43,6 +45,8 @@ export const appRouter = router({
   thingApplicationCanceled,
   thingCurrentApplication,
   checkApplicationPayment,
+  lendThing,
+  updateThing,
 });
 
 // export type definition of API
