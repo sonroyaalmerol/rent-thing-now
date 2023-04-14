@@ -27,6 +27,12 @@ const ApplicationStatusBadge: React.FC<ApplicationStatusBadgeProps> = ({ status 
         RETURNED
       </Badge>
     );
+  } if (status === 'PAID') {
+    return (
+      <Badge color="info">
+        PAID / PREPARING
+      </Badge>
+    );
   }
 
   return (

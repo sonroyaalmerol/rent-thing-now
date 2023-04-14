@@ -1,4 +1,4 @@
-import { Thing, ThingApplication } from '@prisma/client';
+import { Thing, ThingApplication, Payment } from '@prisma/client';
 import clsx from 'clsx';
 import { Carousel } from 'flowbite-react';
 import Link from 'next/link';
@@ -22,11 +22,19 @@ interface BorrowedThingCardProps extends React.HTMLAttributes<HTMLDivElement> {
             caption: string;
         }[];
     };
+    payments: Payment[];
   }
 }
 
 const BorrowedThingCard: React.FC<BorrowedThingCardProps> = ({ application, ...props }) => {
-  const { thing } = application;
+  const { thing, payments } = application;
+
+  const humanizedPayments = React.useMemo(() => {
+    const totalPayments = payments.reduce((acc, payment) => acc + payment.amount, 0);
+    const totalPaymentsFormatted = currencyFormat(totalPayments, 'en-US', 'CAD');
+
+    return `${totalPaymentsFormatted} paid`;
+  }, [payments]);
 
   const humanizedDateRange = React.useMemo(() => {
     const endDate = dayjs(application.endDate);
@@ -82,6 +90,11 @@ const BorrowedThingCard: React.FC<BorrowedThingCardProps> = ({ application, ...p
           Applied for:
           {' '}
           {humanizedDateRange}
+        </p>
+        <p className="mb-2 text-sm text-black">
+          Payment History:
+          {' '}
+          {humanizedPayments}
         </p>
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center justify-start gap-1 mr-2">

@@ -9,7 +9,7 @@ import prisma from '@/utils/prisma';
 
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { getServerSession } from 'next-auth/next';
-import { Thing, ThingApplication } from '@prisma/client';
+import { Payment, Thing, ThingApplication } from '@prisma/client';
 import NoThingsFound from '@/components/NoThingsFound';
 import BorrowedThingCard from '@/components/BorrowedThingCard';
 
@@ -25,6 +25,7 @@ export const getServerSideProps: GetServerSideProps<{ thingApplications: (ThingA
           caption: string;
       }[];
   };
+  payments: Payment[];
 })[] }> = async (context) => {
   const session = await getServerSession(context.req, context.res, authOptions);
 
@@ -59,6 +60,7 @@ export const getServerSideProps: GetServerSideProps<{ thingApplications: (ThingA
           },
         },
       },
+      payments: true,
     },
     orderBy: {
       updatedDate: 'desc',

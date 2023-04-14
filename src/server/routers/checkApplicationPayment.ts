@@ -5,6 +5,7 @@ import prisma from '@/utils/prisma';
 import { TRPCError } from '@trpc/server';
 import { ThingApplicationStatus } from '@prisma/client';
 import { createSession, getSession } from '@/utils/stripe';
+import dayjs from 'dayjs';
 
 export default protectedProcedure
   .input(
@@ -61,6 +62,19 @@ export default protectedProcedure
       },
       data: {
         status: ThingApplicationStatus.PAID,
+      },
+    });
+
+    const numberOfDays = dayjs(thingApplication.endDate).diff(
+      thingApplication.startDate,
+      'day',
+    );
+
+    await prisma.payment.create({
+      data: {
+        amount: thingApplication.quantity * thingApplication.thing.rate * numberOfDays,
+        thingId: thingApplication.id,
+        renterId: thingApplication.renter.id,
       },
     });
 

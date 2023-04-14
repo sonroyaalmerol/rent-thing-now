@@ -25,6 +25,7 @@ import updateThing from '@/server/routers/updateThing';
 import newSupportRequest from '@/server/routers/newSupportRequest';
 import supportRequests from '@/server/routers/supportRequests';
 import replySupportRequest from '@/server/routers/replySupportRequest';
+import updateProfile from '@/server/routers/updateProfile';
 
 export const appRouter = router({
   thingsByCategory,
@@ -53,6 +54,7 @@ export const appRouter = router({
   newSupportRequest,
   supportRequests,
   replySupportRequest,
+  updateProfile,
 });
 
 // export type definition of API

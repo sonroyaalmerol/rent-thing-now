@@ -10,6 +10,9 @@ import {
   Profile, Thing, ThingImage, User,
 } from '@prisma/client';
 
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
+import { getServerSession } from 'next-auth/next';
+
 export const getServerSideProps: GetServerSideProps<{ user: (User & {
   profile: Profile | null;
   things: (Thing & {
@@ -17,6 +20,16 @@ export const getServerSideProps: GetServerSideProps<{ user: (User & {
   })[];
 }) }> = async (context) => {
   const { id } = context.query;
+  const session = await getServerSession(context.req, context.res, authOptions);
+
+  if (session?.user?.id === id) {
+    return {
+      redirect: {
+        destination: '/profile',
+        permanent: false,
+      },
+    };
+  }
 
   const user = await prisma.user.findUnique({
     where: {
@@ -48,7 +61,7 @@ export const getServerSideProps: GetServerSideProps<{ user: (User & {
 // eslint-disable-next-line no-unused-vars
 const ProfilePage: NextPage<
   InferGetServerSidePropsType<typeof getServerSideProps>
-> = ({ user }) => (
+> = ({ user }: InferGetServerSidePropsType<typeof getServerSideProps>) => (
   <>
     <Head>
       <title>{`${user.name} | Rent Thing Now`}</title>
@@ -67,17 +80,57 @@ const ProfilePage: NextPage<
     </Head>
     <div className={
         clsx([
-          'grid',
-          'grid-flow-row-dense',
-          'md:grid-cols-2',
-          'lg:grid-cols-3',
-          'xl:grid-cols-4',
           'sm:mx-auto',
           'max-w-screen-2xl',
           'my-8',
         ])
       }
-    />
+    >
+      <div className="flex flex-row items-center justify-center gap-12">
+        <div className="flex flex-col items-center justify-center gap-4">
+          <img
+            className="object-cover w-32 h-32 rounded-full"
+            src={user.image || ''}
+            alt="Profile"
+            referrerPolicy="no-referrer"
+          />
+          <h2 className="text-xl font-bold">{user.name}</h2>
+          <p className="text-gray-600">{user.email}</p>
+        </div>
+        <div className="flex flex-col space-y-1">
+          <p className="text-gray-600">
+            Phone Number:
+            {' '}
+            {user.profile?.phoneNumber}
+          </p>
+          <p className="text-gray-600">
+            Address:
+            {' '}
+            {user.profile?.address}
+          </p>
+          <p className="text-gray-600">
+            City:
+            {' '}
+            {user.profile?.city}
+          </p>
+          <p className="text-gray-600">
+            State:
+            {' '}
+            {user.profile?.state}
+          </p>
+          <p className="text-gray-600">
+            Zip:
+            {' '}
+            {user.profile?.zip}
+          </p>
+          <p className="text-gray-600">
+            Country:
+            {' '}
+            {user.profile?.country}
+          </p>
+        </div>
+      </div>
+    </div>
   </>
 );
 

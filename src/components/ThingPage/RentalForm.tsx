@@ -70,7 +70,10 @@ const RentalForm: React.FC<RentalFormProps> = ({ thing }) => {
     thingId: thing.id,
   });
 
-  const { data: currentApplication } = trpc.thingCurrentApplication.useQuery({
+  const {
+    data: currentApplication,
+    refetch: refetchApplication,
+  } = trpc.thingCurrentApplication.useQuery({
     id: thing.id,
   });
 
@@ -95,15 +98,27 @@ const RentalForm: React.FC<RentalFormProps> = ({ thing }) => {
         toast.success('Rental request sent! Please wait for the owner to approve your request.');
         clearForm();
         refetch();
+        refetchApplication();
       } else if (rentMutation.isError) {
         toast.error('Something went wrong!');
       }
     }
-  }, [refetch, rentMutation.isError, rentMutation.isLoading, rentMutation.isSuccess]);
+  }, [
+    refetch,
+    refetchApplication,
+    rentMutation.isError,
+    rentMutation.isLoading,
+    rentMutation.isSuccess,
+  ]);
 
-  const { data: isPaid } = trpc.checkApplicationPayment.useQuery({
+  const { data: isPaid, refetch: paymentRefetch } = trpc.checkApplicationPayment.useQuery({
     id: currentApplication?.id ?? '',
   });
+
+  React.useEffect(() => {
+    paymentRefetch();
+    refetchApplication();
+  }, [paymentRefetch, refetchApplication]);
 
   if (!data) {
     return (
@@ -133,7 +148,7 @@ const RentalForm: React.FC<RentalFormProps> = ({ thing }) => {
           <ApplicationStatusBadge status={currentApplication?.status ?? 'PENDING'} />
         </div>
         <div className="flex flex-row flex-wrap items-center gap-4 mt-4">
-          { !isPaid && (
+          { (!isPaid && currentApplication?.status === 'WAITING_PAYMENT') && (
             <Link
               href={currentApplication?.stripeSessionUrl ?? ''}
               target="_blank"
