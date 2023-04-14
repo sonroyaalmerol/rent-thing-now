@@ -5,15 +5,25 @@ import {
 import Datepicker from 'react-tailwindcss-datepicker';
 import type { DateValueType } from 'react-tailwindcss-datepicker/dist/types';
 import trpc from '@/utils/trpc';
-import { Thing } from '@prisma/client';
+import {
+  Category, Profile, Thing, ThingImage, ThingReview, User,
+} from '@prisma/client';
 import dayjs from 'dayjs';
 
 import { toast } from 'react-hot-toast';
 import ApplicationStatusBadge from '@/components/ApplicationStatusBadge';
 import Link from 'next/link';
+import RequestForm from './RequestForm';
 
 interface RentalFormProps {
-  thing: Thing,
+  thing: (Thing & {
+    images: ThingImage[];
+    reviews: ThingReview[];
+    category: Category[];
+    owner: User & {
+      profile: Profile | null;
+    };
+  }),
 }
 
 const RentalForm: React.FC<RentalFormProps> = ({ thing }) => {
@@ -152,6 +162,10 @@ const RentalForm: React.FC<RentalFormProps> = ({ thing }) => {
             Cancel request
           </Button>
         </div>
+
+        <RequestForm
+          thing={thing}
+        />
       </div>
     );
   }

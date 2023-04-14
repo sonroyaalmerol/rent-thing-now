@@ -7,11 +7,12 @@ import clsx from 'clsx';
 
 import prisma from '@/utils/prisma';
 import {
-  Thing, ThingImage,
+  Thing, ThingImage, User, Profile,
 } from '@prisma/client';
 
 import { Tabs } from 'flowbite-react';
 import { HiUserCircle } from 'react-icons/hi';
+import { BiSupport } from 'react-icons/bi';
 import { MdDashboard } from 'react-icons/md';
 import { FaCog } from 'react-icons/fa';
 import { getServerSession } from 'next-auth/next';
@@ -21,9 +22,13 @@ import trpc from '@/utils/trpc';
 import ApplicationCard from '@/components/ThingPage/Management/ApplicationCard';
 import LendingForm from '@/components/ThingPage/LendingForm';
 import { toast } from 'react-hot-toast';
+import RequestForm from '@/components/ThingPage/Management/RequestForm';
 
 export const getServerSideProps: GetServerSideProps<{ thing:(Thing & {
   images: ThingImage[];
+  owner: User & {
+    profile: Profile | null;
+  };
 }) }> = async (context) => {
   const { slug } = context.query;
   const session = await getServerSession(context.req, context.res, authOptions);
@@ -44,6 +49,11 @@ export const getServerSideProps: GetServerSideProps<{ thing:(Thing & {
     },
     include: {
       images: true,
+      owner: {
+        include: {
+          profile: true,
+        },
+      },
     },
   });
 
@@ -203,6 +213,14 @@ const ThingDetails: NextPage<
                 </div>
               </Tabs.Item>
             </Tabs.Group>
+          </Tabs.Item>
+          <Tabs.Item
+            title="Support Requests"
+            icon={BiSupport}
+          >
+            <RequestForm
+              thing={thing}
+            />
           </Tabs.Item>
           <Tabs.Item
             title="Images"

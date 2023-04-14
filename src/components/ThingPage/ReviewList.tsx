@@ -44,6 +44,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ thing }) => {
               className="object-cover w-10 h-10 mr-4 rounded-full"
               src={review.renter.image ?? 'https://loremflickr.com/640/640'}
               alt={review.renter.name ?? 'Reviewer Image'}
+              referrerPolicy="no-referrer"
             />
             <div className="flex flex-col items-start justify-start">
               <h3 className="text-lg font-semibold">

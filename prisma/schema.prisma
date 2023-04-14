@@ -216,7 +216,6 @@ model SupportRequest {
   renterId   String
   description String
   requestDate DateTime    @default(now())
-  status      String
 
   reply      SupportReply?
   thing       Thing @relation(fields: [thingId], references: [id])

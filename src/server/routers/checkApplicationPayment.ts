@@ -16,7 +16,6 @@ export default protectedProcedure
     let thingApplication = await prisma.thingApplication.findFirst({
       where: {
         id: input.id,
-        status: ThingApplicationStatus.WAITING_PAYMENT,
         renterId: ctx.session.user.id,
       },
       include: {
