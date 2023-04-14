@@ -5,6 +5,7 @@ import {
   Category, Profile, Thing, ThingImage, ThingReview, User,
 } from '@prisma/client';
 import { currencyFormat } from 'simple-currency-format';
+import Link from 'next/link';
 import ViewAllPhotosButton from './ViewAllPhotosButton';
 
 interface ThingDescriptionProps {
@@ -101,9 +102,11 @@ const ThingDescription: React.FC<ThingDescriptionProps> = ({ thing }) => (
 
     <div className="flex flex-row items-center justify-end mt-2">
       <div className="flex flex-col mr-4 text-right">
-        <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
-          {thing.owner.name}
-        </h5>
+        <Link href={`/profile/${thing.owner.id}`}>
+          <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
+            {thing.owner.name}
+          </h5>
+        </Link>
         <span className="text-sm text-gray-500 dark:text-gray-400">
           Thing Owner
         </span>
